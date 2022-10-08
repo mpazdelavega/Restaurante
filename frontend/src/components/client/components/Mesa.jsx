@@ -27,6 +27,12 @@ const Mesa = () => {
     addReserva({ fechaToAdd, mesaToAdd })
     //console.log(mesaToAdd, fechaToAdd)
   }
+ 
+
+
+    var today = new Date(),
+    date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + '0' + (today.getDate() + 1);
+
 
   return (
     <div className='max-w-[1640px] m-auto px-4 py-12'>   
@@ -59,7 +65,7 @@ const Mesa = () => {
                   {item.estado}
                 </span>
                 <button className='bg-amber-600 hover:bg-amber-900 transition-colors text-white p-1.5 rounded-full' onClick={() => {
-              addMesa("2020-01-01", item)
+              addMesa(date, item)
             }}>
                     Reservar
                 </button>
