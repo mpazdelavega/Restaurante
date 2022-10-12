@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { updateMesa } from '../../../services/mesa'
 import { deleteReservaItem, getReservaList } from "../../../services/reserva";
 import {
   getShoppingList,
@@ -71,6 +72,15 @@ function ReservaUsuario() {
     setOpen(false);
   };
 
+  const updateEstado = (id) => {
+    console.log(id)
+    const mesa = {
+      id_mesa: id,
+      estado: "Disponible",
+    };
+    updateMesa({mesa})
+  } 
+
   return (
     <div className="max-w-[1440px] mx-auto overflow-x-auto relative shadow-xl sm:rounded-lg mb-10 mt-5">
       <h1 className="text-amber-600 font-bold text-4xl text-center mb-5">
@@ -111,9 +121,7 @@ function ReservaUsuario() {
               <td className="py-4 px-6 text-right">
                 <a
                   className="font-medium text-white dark:text-black hover:underline cursor-pointer"
-                  onClick={() => {
-                    deleteItem(item.id_reserva);
-                  }}
+                  onClick={() => {deleteItem(item.id_reserva);updateEstado(item.mesa.id_mesa);}}
                 >
                   Cancelar Reserva
                 </a>

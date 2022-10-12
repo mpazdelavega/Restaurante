@@ -7,3 +7,9 @@ export const getAllMesas = ({ setMesaList }) => {
         setMesaList(response.data)
     })
 }
+
+export const updateMesa = ({ mesa }) => {
+    console.log(mesa)
+    const mesaUpdateUrl = getApiUrl("mesa/update")
+    axios.put(mesaUpdateUrl, mesa, { withCredentials: true })  
+}

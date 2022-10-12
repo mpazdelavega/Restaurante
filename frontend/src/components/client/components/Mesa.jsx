@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { getUserDetails } from '../../../services/auth'
-import { getAllMesas } from '../../../services/mesa'
+import { getAllMesas, updateMesa } from '../../../services/mesa'
 import { addReserva } from '../../../services/reserva';
 
-const Mesa = () => {
+function Mesa(props) {
   const [roles, setUserRole] = useState([{}])
   const [mesaList, setMesaList] = useState([])
+  
   const [refresh, setRefresh] = useState(false)
   const [openModal, setOpenModal] = useState(false)
   const [showProductFeedback, setProductFeedback] = React.useState({ show: false, status: false, infoText: '' })
@@ -25,13 +26,22 @@ const Mesa = () => {
 
   const addMesa = (fechaToAdd, mesaToAdd) => {
     addReserva({ fechaToAdd, mesaToAdd })
+    //updateMesa({mesa})
     //console.log(mesaToAdd, fechaToAdd)
   }
- 
+
+  const updateEstado = (id) => {
+    console.log(id)
+    const mesa = {
+      id_mesa: id,
+      estado: "Reservada",
+    };
+    updateMesa({mesa})
+  } 
 
 
     var today = new Date(),
-    date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + '0' + (today.getDate() + 1);
+    date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + (today.getDate() + 1);
 
 
   return (
@@ -46,15 +56,15 @@ const Mesa = () => {
             key={item.id_mesa}
             className='border shadow-lg rounded-lg hover:scale-105 duration-300 '
           >
-            <a href={'//localhost:3000/store/detail/' + item.id + '/' + item.category}>
+            
               
-              <img
-                src={item.tipo_mesa.foto}
-                alt={item.tipo_mesa.descripcion}
-                className='w-full h-[200px] object-cover rounded-t-lg '
-              />
+            <img
+              src={item.tipo_mesa.foto}
+              alt={item.tipo_mesa.descripcion}
+              className='w-full h-[200px] object-cover rounded-t-lg '
+            />
 
-            </a>
+            
             <div className='flex justify-between px-2 py-4'>
               <p className='font-bold'>Mesa N°{item.id_mesa}</p>
               <p>
@@ -64,11 +74,12 @@ const Mesa = () => {
                 <span className='bg-amber-600 text-white p-2 mr-2 rounded-full'>
                   {item.estado}
                 </span>
-                <button className='bg-amber-600 hover:bg-amber-900 transition-colors text-white p-1.5 rounded-full' onClick={() => {
-              addMesa(date, item)
-            }}>
+                {item.estado === "Disponible" ? <button className='bg-amber-600 hover:bg-amber-900 transition-colors text-white p-1.5 rounded-full' onClick={() => {updateEstado(item.id_mesa); addMesa(date, item);}}>
                     Reservar
-                </button>
+                </button>: <button className='bg-gray-600 text-gray-300 p-1.5 rounded-full disabled' >
+                    Reservada
+                </button>}
+                
               </p>
             </div>
             
