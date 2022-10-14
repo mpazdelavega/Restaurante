@@ -71,10 +71,7 @@ function Mesa(props) {
               <span className='bg-amber-600 text-white p-2 mr-2 rounded-full'>
                   {item.tipo_mesa.capacidad} Personas
                 </span>
-                <span className='bg-amber-600 text-white p-2 mr-2 rounded-full'>
-                  {item.estado}
-                </span>
-                {item.estado === "Disponible" ? <button className='bg-amber-600 hover:bg-amber-900 transition-colors text-white p-1.5 rounded-full' onClick={() => {updateEstado(item.id_mesa); addMesa(date, item);}}>
+                {item.estado === "Disponible" || item.estado === "Cancelado" ? <button className='bg-amber-600 hover:bg-amber-900 transition-colors text-white p-1.5 rounded-full' onClick={() => {updateEstado(item.id_mesa); addMesa(date, item);}}>
                     Reservar
                 </button>: <button className='bg-gray-600 text-gray-300 p-1.5 rounded-full disabled' >
                     Reservada

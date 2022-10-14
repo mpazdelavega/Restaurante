@@ -10,6 +10,7 @@ export const addToCart = ({ amountToAdd, productToAdd }) => {
             product: productToAdd,
             amount: amountToAdd
         }
+        console.log(cartObject)
         axios.post(addUrl, cartObject, { withCredentials: true }).then(() => {
             let number = parseInt(localStorage.getItem("number")) + 1
             localStorage.setItem("number", number.toString())

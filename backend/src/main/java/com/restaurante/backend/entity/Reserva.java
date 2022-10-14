@@ -22,18 +22,34 @@ public class Reserva {
 	@NotNull
     @Column(columnDefinition = "DATE")
     private Date fecha;
+	@NotNull
+    private String estado_reserva;
     @ManyToOne(optional = false, cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_mesa", nullable = false, updatable = false)
     private Mesa mesa;
     @ManyToOne(optional = false, cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     private User client;
-	public Reserva(int id_reserva, @NotNull Date fecha, Mesa mesa, User client) {
-
+	
+	
+	public Reserva(int id_reserva, @NotNull Date fecha, @NotNull String estado_reserva, Mesa mesa, User client) {
 		this.id_reserva = id_reserva;
 		this.fecha = fecha;
+		this.estado_reserva = estado_reserva;
 		this.mesa = mesa;
 		this.client = client;
 	}
+
+
+	public String getEstado_reserva() {
+		return estado_reserva;
+	}
+
+
+	public void setEstado_reserva(String estado_reserva) {
+		this.estado_reserva = estado_reserva;
+	}
+
+
 	public Reserva() {
 
 	}

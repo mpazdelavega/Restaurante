@@ -7,6 +7,7 @@ export const addReserva = ({ fechaToAdd, mesaToAdd }) => {
     axios.get(userDetailUrl, { withCredentials: true }).then(userDetails => {
         let reservaObject = {
             fecha: fechaToAdd,
+            estado_reserva: "No Cancelado",
             client: userDetails.data,
             mesa: mesaToAdd
         }

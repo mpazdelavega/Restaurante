@@ -20,15 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.restaurante.backend.entity.Message;
 import com.restaurante.backend.entity.Reserva;
-import com.restaurante.backend.service.ReservaService;
+import com.restaurante.backend.service.ReservaServiceImpl;
 
 @RestController
 @RequestMapping("/reserva")
 public class ReservaController {
-	private final ReservaService reservaService;
+	private final ReservaServiceImpl reservaService;
 
 	@Autowired
-	public ReservaController(ReservaService reservaService) {
+	public ReservaController(ReservaServiceImpl reservaService) {
 		this.reservaService = reservaService;
 	}
 	
