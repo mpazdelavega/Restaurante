@@ -23,6 +23,9 @@ public class ShoppingCart {
     private User client;
     @NotNull
     private int amount;
+    
+    //private String estado_pedido;
+    
 	public ShoppingCart(String id, Product product, User client, @NotNull int amount) {
 		
 		this.id = id;
@@ -33,6 +36,9 @@ public class ShoppingCart {
 	public ShoppingCart() {
 
 	}
+	
+	
+	
 	public String getId() {
 		return id;
 	}

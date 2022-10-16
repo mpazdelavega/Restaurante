@@ -94,6 +94,9 @@ function Cart() {
               <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5">
                 Total
               </h3>
+              <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5">
+                Estado
+              </h3>
             </div>
             {productList.map((item) => (
             <div key={item.id} className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
@@ -142,6 +145,9 @@ function Cart() {
               </span>
               <span className="text-center w-1/5 font-semibold text-sm">
                 ${item.product.price}
+              </span>
+              <span className="text-center w-1/5 font-semibold text-sm">
+                Escogiendo
               </span>
             </div>))}
             <a

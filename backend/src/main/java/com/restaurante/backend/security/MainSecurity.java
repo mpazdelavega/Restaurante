@@ -47,7 +47,7 @@ public class MainSecurity {
                     return configuration;
                 }).and().csrf().disable()
         .authorizeRequests()
-        .antMatchers("/auth/login", "/auth/register", "/auth/logout", "/mesa/getAll", "/reserva","/mesa/update")
+        .antMatchers("/auth/login", "/auth/register", "/auth/logout", "/mesa/getAll", "/reserva","/mesa/update","/reserva/update")
         .permitAll()
         .anyRequest().authenticated()
         .and()

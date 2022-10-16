@@ -35,3 +35,9 @@ export const getSaleList = ({ setSalesList }) => {
         setSalesList(response.data)
     })
 }
+
+export const updateReserva = ({ reserva }) => {
+    console.log(reserva)
+    const reservaUpdateUrl = getApiUrl("reserva/update")
+    axios.put(reservaUpdateUrl, reserva, { withCredentials: true })  
+}

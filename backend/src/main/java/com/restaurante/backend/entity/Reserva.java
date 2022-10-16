@@ -20,7 +20,7 @@ public class Reserva {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_reserva;
 	@NotNull
-    @Column(columnDefinition = "DATE")
+    @Column(columnDefinition = "DATE", updatable = false, nullable = false)
     private Date fecha;
 	@NotNull
     private String estado_reserva;
@@ -28,15 +28,11 @@ public class Reserva {
     @JoinColumn(name = "id_mesa", nullable = false, updatable = false)
     private Mesa mesa;
     @ManyToOne(optional = false, cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, updatable = false)
     private User client;
 	
-	
-	public Reserva(int id_reserva, @NotNull Date fecha, @NotNull String estado_reserva, Mesa mesa, User client) {
-		this.id_reserva = id_reserva;
-		this.fecha = fecha;
-		this.estado_reserva = estado_reserva;
-		this.mesa = mesa;
-		this.client = client;
+    public Reserva() {
+
 	}
 
 
@@ -50,9 +46,7 @@ public class Reserva {
 	}
 
 
-	public Reserva() {
-
-	}
+	
 	public int getId_reserva() {
 		return id_reserva;
 	}

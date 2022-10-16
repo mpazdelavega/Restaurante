@@ -10,10 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +24,7 @@ import com.restaurante.backend.entity.Message;
 import com.restaurante.backend.entity.Reserva;
 import com.restaurante.backend.service.ReservaServiceImpl;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/reserva")
 public class ReservaController {
@@ -60,6 +63,13 @@ public class ReservaController {
 	public ResponseEntity<Message> removeReserva(@PathVariable("item_id")int id){
 		this.reservaService.removeReserva(id);
 		return new ResponseEntity<>(new Message("Reserva eliminada"),HttpStatus.OK);
+	}
+	
+	@PutMapping("/update")
+	private String add(@RequestBody Reserva reserva)
+	{
+		reservaService.updateReserva(reserva);
+		return "Reserva actualizada";
 	}
 	
 	

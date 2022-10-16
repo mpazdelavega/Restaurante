@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { updateMesa } from '../../../services/mesa'
-import { deleteReservaItem, getReservaList } from "../../../services/reserva";
+import { deleteReservaItem, getReservaList, updateReserva } from "../../../services/reserva";
 import {
   getShoppingList,
   getSaleList,
   deleteShoppingItem,
   generateSale,
 } from "../../../services/shoppingCart";
+
 
 function ReservaUsuario() {
   let [number, setNumber] = useState(0);
@@ -79,6 +80,18 @@ function ReservaUsuario() {
       estado: "Disponible",
     };
     updateMesa({mesa})
+    
+  } 
+
+  const updateReservaEstado = (id) => {
+    console.log("RESERVA UPDATE ID: " + id)
+    const reserva = {
+      id_reserva: id,
+      fecha: "2022-10-15",
+      estado_reserva: "Cancelado",
+    };
+    updateReserva({reserva})
+    //window.location.href = window.location.href;
   } 
 
   return (
@@ -120,12 +133,13 @@ function ReservaUsuario() {
               {item.estado_reserva === "Cancelado" ? <td className="py-4 px-6">{item.estado_reserva}</td> : <td className="py-4 px-6">{item.mesa.estado}</td>}
               
               <td className="py-4 px-6 text-right">
-                <a
+              {item.estado_reserva != "Cancelado" ? <a
                   className="font-medium text-white dark:text-black hover:underline cursor-pointer"
-                  onClick={() => {deleteItem(item.id_reserva);updateEstado(item.mesa.id_mesa);}}
+                  onClick={() => {updateEstado(item.mesa.id_mesa);updateReservaEstado(item.id_reserva);window.location.reload();}}
                 >
                   Cancelar Reserva
-                </a>
+                </a>: null}
+                
               </td>
             </tr>
           </tbody>

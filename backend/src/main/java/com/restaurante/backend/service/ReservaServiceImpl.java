@@ -10,7 +10,6 @@ import com.restaurante.backend.entity.Reserva;
 import com.restaurante.backend.repository.ReservaRepository;
 
 @Service
-@Transactional
 public class ReservaServiceImpl implements ReservaService{
 	
 	private final ReservaRepository reservaRepository;
