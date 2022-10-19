@@ -7,7 +7,8 @@ import {
   deleteShoppingItem,
   generateSale,
 } from "../../../services/shoppingCart";
-
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 function ReservaUsuario() {
   let [number, setNumber] = useState(0);
@@ -94,6 +95,19 @@ function ReservaUsuario() {
     //window.location.href = window.location.href;
   } 
 
+  const notifyReserva = () => {
+    toast.error('Reserva cancelada', {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+  }
+
   return (
     <div className="max-w-[1440px] mx-auto overflow-x-auto relative shadow-xl sm:rounded-lg mb-10 mt-5">
       <h1 className="text-amber-600 font-bold text-4xl text-center mb-5">
@@ -145,6 +159,7 @@ function ReservaUsuario() {
           </tbody>
         ))}
       </table>
+      <ToastContainer />
     </div>
   );
 }

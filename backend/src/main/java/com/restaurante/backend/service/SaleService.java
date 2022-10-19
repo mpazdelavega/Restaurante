@@ -23,10 +23,10 @@ public class SaleService {
 
     private final SaleRepository saleRepository;
     private final UserService userService;
-    private final ShoppingCartService shoppingCartService;
+    private final ShoppingCartServiceImpl shoppingCartService;
     private final DetailService detailService;
     @Autowired
-    public SaleService(SaleRepository saleRepository, UserService userService, ShoppingCartService shoppingCartService,
+    public SaleService(SaleRepository saleRepository, UserService userService, ShoppingCartServiceImpl shoppingCartService,
                        DetailService detailService) {
         this.saleRepository = saleRepository;
         this.userService = userService;

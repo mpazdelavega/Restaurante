@@ -4,6 +4,8 @@ import { getUserDetails } from '../../../services/auth'
 import ProductForm from '../../client/components/productForm'
 import { getAllProducts, getBestProducts } from '../../../services/product'
 import { addToCart } from '../../../services/shoppingCart'
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 const Food = () => {
   const [roles, setUserRole] = useState([{}])
@@ -29,6 +31,20 @@ const Food = () => {
   };
   const addProduct = (productToAdd, amountToAdd) => {
     addToCart({ amountToAdd, productToAdd })
+  }
+
+  const notifyPedido = () => {
+    toast.success('🍔 Se agrego un producto al pedido 🍕', {
+      position: "top-left",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+    
   }
 
 
@@ -58,7 +74,7 @@ const Food = () => {
                   ${productItem.price}
                 </span>
                 <button onClick={() => {
-              addProduct(productItem, 1)
+              addProduct(productItem, 1);notifyPedido();
             }} className='bg-amber-600 hover:bg-amber-900 transition-colors text-white p-1.5 rounded-full'>
                     Agregar
                 </button>
@@ -92,7 +108,7 @@ const Food = () => {
                   ${productItem.price}
                 </span>
                 <button onClick={() => {
-              addProduct(productItem, 1)
+              addProduct(productItem, 1);notifyPedido();
             }} className='bg-amber-600 hover:bg-amber-900 transition-colors text-white p-1.5 rounded-full'>
                     Agregar
                 </button>
@@ -102,6 +118,7 @@ const Food = () => {
           </div>
         ))}
       </div>
+      <ToastContainer />
     </div>
   );
 };

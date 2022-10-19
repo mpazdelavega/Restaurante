@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
@@ -18,27 +19,35 @@ public class ShoppingCart {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
     @ManyToOne(optional = false, cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, updatable = false)
     private Product product;
     @ManyToOne(optional = false, cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, updatable = false)
     private User client;
     @NotNull
     private int amount;
     
-    //private String estado_pedido;
+    private String estado_pedido;
     
-	public ShoppingCart(String id, Product product, User client, @NotNull int amount) {
+	public ShoppingCart() {
 		
+	}
+	
+	
+	
+	public ShoppingCart(String id, Product product, User client, @NotNull int amount, String estado_pedido) {
 		this.id = id;
 		this.product = product;
 		this.client = client;
 		this.amount = amount;
+		this.estado_pedido = estado_pedido;
 	}
-	public ShoppingCart() {
-
+	public String getEstado_pedido() {
+		return estado_pedido;
 	}
-	
-	
-	
+	public void setEstado_pedido(String estado_pedido) {
+		this.estado_pedido = estado_pedido;
+	}
 	public String getId() {
 		return id;
 	}

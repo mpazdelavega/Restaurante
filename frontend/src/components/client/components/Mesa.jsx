@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { getUserDetails } from '../../../services/auth'
 import { getAllMesas, updateMesa } from '../../../services/mesa'
 import { addReserva } from '../../../services/reserva';
+import { deleteReservaItem, getReservaList, updateReserva } from "../../../services/reserva";
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 function Mesa(props) {
   const [roles, setUserRole] = useState([{}])
   const [mesaList, setMesaList] = useState([])
+  const [productList, setProductList] = useState([]);
   
   const [refresh, setRefresh] = useState(false)
   const [openModal, setOpenModal] = useState(false)
@@ -14,7 +18,39 @@ function Mesa(props) {
   useEffect(() => {
     getUserDetails({ setUserRole })
     getAllMesas({ setMesaList })
+    getReservaList({ setProductList })
+    getReservas()
   }, [refresh])
+
+  const getList = () => {
+    getReservaList({ setProductList });
+  };
+
+  const getReservas = () => {
+    let reserva = '';
+    let estado = '';
+    let mesa = '';
+    productList.forEach((item) => {
+      reserva = item.client.id;
+      estado = item.estado_reserva;
+      mesa = item.mesa.id_mesa;
+    });
+    if(reserva === getIdClient()){
+      return estado;
+    }
+    
+
+    //return console.log("getReservas: " + reserva + " " + estado + " " + mesa);
+    
+  };
+
+  const getIdClient = () => {
+    let clientId = '';
+    productList.forEach((item) => {
+      clientId = item.client.id;
+    });
+    return clientId;
+  };
 
   const handleOpenModal = () => setOpenModal(true)
   const closeProductFeedback = (event, reason) => {
@@ -41,6 +77,20 @@ function Mesa(props) {
     //window.location.replace('');
     
   } 
+
+  const notifyReserva = () => {
+    toast.success('📅 Mesa reservada correctamente ', {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
+      
+  }
 
 
     var today = new Date(),
@@ -74,7 +124,7 @@ function Mesa(props) {
               <span className='bg-amber-600 text-white p-2 mr-2 rounded-full'>
                   {item.tipo_mesa.capacidad} Personas
                 </span>
-                {item.estado === "Disponible" || item.estado === "Cancelado" ? <button className='bg-amber-600 hover:bg-amber-900 transition-colors text-white p-1.5 rounded-full' onClick={() => {addMesa(date, item);updateEstado(item.id_mesa);}}>
+                {getReservas() === "Cancelado" || getReservas() === "" ? <button className='bg-amber-600 hover:bg-amber-900 transition-colors text-white p-1.5 rounded-full' onClick={() => {addMesa(date, item);updateEstado(item.id_mesa);notifyReserva();getReservas();}}>
                     Reservar
                 </button>: <button className='bg-gray-600 text-gray-300 p-1.5 rounded-full disabled' >
                     Reservada
@@ -85,7 +135,19 @@ function Mesa(props) {
             
           </div>
         ))}
+        {/* {item.estado === "Disponible" || item.estado === "Cancelado" ? <button className='bg-amber-600 hover:bg-amber-900 transition-colors text-white p-1.5 rounded-full' onClick={() => {addMesa(date, item);updateEstado(item.id_mesa);notifyReserva();getReservas()}}>
+                    Reservar
+                </button>: <button className='bg-gray-600 text-gray-300 p-1.5 rounded-full disabled' >
+                    Reservada
+                </button>}
+                
+              </p>
+            </div>
+            
+          </div>
+        ))} */}
       </div>
+      <ToastContainer />
     </div>
   );
 };
