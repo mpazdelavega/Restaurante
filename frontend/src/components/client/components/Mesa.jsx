@@ -119,7 +119,7 @@ function Mesa(props) {
 
             
             <div className='flex justify-between px-2 py-4'>
-              <p className='font-bold'>Mesa N°{item.id_mesa}</p>
+              <p className='font-bold'>Mesa N°{item.tipo_mesa.id_tipo_mesa}</p>
               <p>
               <span className='bg-amber-600 text-white p-2 mr-2 rounded-full'>
                   {item.tipo_mesa.capacidad} Personas
@@ -132,6 +132,7 @@ function Mesa(props) {
                 
               </p>
             </div>
+            <p className='font-bold text-center mb-5'>{item.date}</p>
             
           </div>
         ))}

@@ -1,9 +1,12 @@
 package com.restaurante.backend.entity;
 
 
+import java.util.Date;
+
 //import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 //import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +18,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 //import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="mesa")
@@ -24,6 +30,8 @@ public class Mesa {
 	private int id_mesa;
 	private String estado;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 	@ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_tipo_mesa", nullable = false, updatable = false)
 	private Tipo_mesa tipo_mesa;
