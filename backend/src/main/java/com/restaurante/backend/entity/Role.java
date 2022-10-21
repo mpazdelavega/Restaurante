@@ -6,11 +6,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.restaurante.backend.enums.RoleList;
 
 @Entity
+@Table(name="rol")
 public class Role {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

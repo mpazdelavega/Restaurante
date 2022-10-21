@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import registerStyles from './register.module.css';
 import { submitRegister } from '../../services/auth'
 import { Alert } from '@material-tailwind/react';
 
@@ -7,7 +6,8 @@ function Register() {
 
   const [registerData, setRegisterData] = useState({
     userName: "",
-    email: "",
+    nombre: "",
+    apellido: "",
     password: ""
   })
   const [open, setOpen] = useState(false)
@@ -56,7 +56,8 @@ function Register() {
             <div className="relative">
               <input
                 type="text"
-                name="nombre"
+                id="nombre" 
+                onChange={e => handleForm(e)} value={registerData.nombre}
                 className="w-full border py-2 px-10 rounded-md outline-none"
                 placeholder="Ingresa tu nombre"
               />
@@ -79,10 +80,10 @@ function Register() {
             <div className="relative">
               <input
                 type="text"
-                id="userName" 
-                onChange={e => handleForm(e)} value={registerData.userName}
+                id="apellido" 
+                onChange={e => handleForm(e)} value={registerData.apellido}
                 className="w-full border py-2 px-10 rounded-md outline-none"
-                placeholder="Usuario"
+                placeholder="Ingrese su apellido"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -102,11 +103,12 @@ function Register() {
 
             <div className="relative">
               <input
-                type="text"
-                id="email" 
-                onChange={e => handleForm(e)} value={registerData.email}
+                type="email"
+                id="userName" 
+                name='email'
+                onChange={e => handleForm(e)} value={registerData.userName}
                 className="w-full border py-2 px-10 rounded-md outline-none"
-                placeholder="Ingresa tu correo"
+                placeholder="Ingrese su correo"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -130,7 +132,7 @@ function Register() {
                 id="password" 
                 onChange={e => handleForm(e)} value={registerData.password} 
                 className="w-full border py-2 px-10 rounded-md outline-none"
-                placeholder="Ingresa tu contraseña"
+                placeholder="Ingrese su contraseña"
               />
 
               <svg

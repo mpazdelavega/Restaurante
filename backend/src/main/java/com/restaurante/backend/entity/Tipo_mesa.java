@@ -2,6 +2,8 @@ package com.restaurante.backend.entity;
 
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -9,7 +11,7 @@ import javax.persistence.Table;
 @Table(name="tipo_mesa")
 public class Tipo_mesa {
 
-	@Id
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_tipo_mesa;
 	private String descripcion;
 	private int capacidad;

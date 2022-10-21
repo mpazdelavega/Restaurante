@@ -43,7 +43,7 @@ public class ShoppingCartController {
     }
     
     @GetMapping("/count/{client_id}")
-    public ResponseEntity<Long> countByClient(@PathVariable("client_id")String id){
+    public ResponseEntity<Long> countByClient(@PathVariable("client_id")int id){
         return new ResponseEntity<>(this.shoppingCartService.getCountByClient(id),HttpStatus.OK);
     }
     @PostMapping()
@@ -61,7 +61,7 @@ public class ShoppingCartController {
     }
     
     @PutMapping("/update/{client_id}")
-	private ResponseEntity<Message> add(@PathVariable("client_id") String id)
+	private ResponseEntity<Message> add(@PathVariable("client_id") int id)
 	{
     	System.out.println("Controller: " + id);
     	shoppingCartService.updateShoppingCart(id);

@@ -17,7 +17,7 @@ export const submitRegister = (props) => {
     const { registerData, setRegisterData, setWrongData, setOpen } = props
     const registerUrl = getApiUrl('auth/register')
     axios.post(registerUrl, registerData).then(response => {
-        setRegisterData({ userName: "", email: "", password: "" })
+        setRegisterData({ userName: "", nombre: "", apellido: "", password: "" })
         setWrongData({ status: false, infoText: response.data.infoMessage })
         setOpen(true)
     }).catch(error => {

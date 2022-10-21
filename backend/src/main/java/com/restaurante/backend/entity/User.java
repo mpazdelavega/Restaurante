@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -14,22 +15,21 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 
 @Entity
-@Table(name = "users") 
+@Table(name = "usuario") 
 public class User {
-	@Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private String id;
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+	@NotNull
+    private String nombre;
+	@NotNull
+    private String apellido;
     @NotNull
     @NaturalId
     @Column(unique = true)
     private String userName;
-    @NotNull
-    private String email;
     @NotNull
     private String password;
     @NotNull
@@ -39,15 +39,31 @@ public class User {
     private Set<Role> roles = new HashSet<>();
     public User() {
     }
-    public User(@NotNull String userName, @NotNull String email, @NotNull String password) {
+    public User(@NotNull String userName, @NotNull String nombre, @NotNull String apellido, @NotNull String password) {
         this.userName = userName;
-        this.email = email;
         this.password = password;
+        this.nombre = nombre;
+        this.apellido = apellido;
     }
-    public String getId() {
+    
+    
+    
+    public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public String getApellido() {
+		return apellido;
+	}
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+	public int getId() {
         return id;
     }
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     public String getUserName() {
@@ -55,12 +71,6 @@ public class User {
     }
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
     }
     public String getPassword() {
         return password;

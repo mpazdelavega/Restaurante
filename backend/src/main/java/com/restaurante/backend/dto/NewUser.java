@@ -3,25 +3,27 @@ package com.restaurante.backend.dto;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public class NewUser {
 
     @NotBlank
     private String userName;
-    @Email
-    private String email;
+    @NotBlank
+    private String nombre;
+    @NotBlank
+    private String apellido;
     @NotBlank
     private String password;
     private Set<String> roles = new HashSet<>();
     public NewUser() {
     }
-    public NewUser(@NotBlank String userName, @Email String email, @NotBlank String password,
+    public NewUser(@NotBlank String userName,  @NotBlank String nombre, @NotBlank String apellido, @NotBlank String password,
             Set<String> roles) {
 
         this.userName = userName;
-        this.email = email;
+        this.nombre = nombre;
+        this.apellido = apellido;
         this.password = password;
         this.roles = roles;
     }
@@ -32,13 +34,21 @@ public class NewUser {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public String getPassword() {
+    
+    
+    public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public String getApellido() {
+		return apellido;
+	}
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+	public String getPassword() {
         return password;
     }
     public void setPassword(String password) {

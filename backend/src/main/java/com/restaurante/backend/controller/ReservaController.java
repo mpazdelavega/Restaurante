@@ -44,7 +44,7 @@ public class ReservaController {
 	}
 	
 	@GetMapping("/count/{client_id}")
-	public ResponseEntity<Long> contByClient(@PathVariable("client_id")String id){
+	public ResponseEntity<Long> contByClient(@PathVariable("client_id")int id){
 		return new ResponseEntity<>(this.reservaService.getCountByClient(id), HttpStatus.OK);
 	}
 	

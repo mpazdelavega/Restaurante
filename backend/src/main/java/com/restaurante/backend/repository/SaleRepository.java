@@ -6,6 +6,6 @@ import com.restaurante.backend.entity.Sale;
 
 import java.util.List;
 
-public interface SaleRepository extends JpaRepository<Sale,String> {
+public interface SaleRepository extends JpaRepository<Sale,Integer> {
     List<Sale> findByClient_UserName(String userName);
 }

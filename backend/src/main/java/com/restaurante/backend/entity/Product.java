@@ -2,19 +2,19 @@ package com.restaurante.backend.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
+@Table(name="plato")
 public class Product {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private String id;
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     @NotBlank @NotNull
     private String name;
     @NotNull @DecimalMin(value = "0.1")
@@ -25,7 +25,7 @@ public class Product {
     private String category;
     @NotBlank @NotNull
     private String image;
-	public Product(String id, @NotBlank @NotNull String name, @NotNull @DecimalMin("0.1") Double price,
+	public Product(int id, @NotBlank @NotNull String name, @NotNull @DecimalMin("0.1") Double price,
 			@NotBlank @NotNull String description, @NotBlank @NotNull String category,
 			@NotBlank @NotNull String image) {
 		this.id = id;
@@ -38,10 +38,10 @@ public class Product {
 	public Product() {
 
 	}
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getName() {

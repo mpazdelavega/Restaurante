@@ -4,18 +4,18 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
+@Table(name="detalle_venta")
 public class Detail {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private String id;
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     @ManyToOne(optional = false, cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     private Product product;
     @ManyToOne(optional = false, cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
@@ -25,17 +25,17 @@ public class Detail {
 	public Detail() {
 		
 	}
-	public Detail(String id, Product product, Sale sale, @NotNull int amount) {
+	public Detail(int id, Product product, Sale sale, @NotNull int amount) {
 		
 		this.id = id;
 		this.product = product;
 		this.sale = sale;
 		this.amount = amount;
 	}
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public Product getProduct() {

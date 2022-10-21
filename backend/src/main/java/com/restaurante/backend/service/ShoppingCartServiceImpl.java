@@ -27,7 +27,7 @@ public class ShoppingCartServiceImpl{
         return this.shoppingCartRepository.findByClient_UserNameAndStatus(userName);
     }
     
-    public void cleanShoppingCart(String clientId){
+    public void cleanShoppingCart(int clientId){
         this.shoppingCartRepository.deleteByClient_Id(clientId);
     }
     public void removeProduct(String id){
@@ -36,11 +36,11 @@ public class ShoppingCartServiceImpl{
     public void addProduct(ShoppingCart shoppingCart){
         this.shoppingCartRepository.save(shoppingCart);
     }
-    public Long getCountByClient(String clientId){
+    public Long getCountByClient(int clientId){
         return this.shoppingCartRepository.countByClient_Id(clientId);
     }
 
-	public void updateShoppingCart(String id) {
+	public void updateShoppingCart(int id) {
 		this.shoppingCartRepository.updateByClient_Id(id);
 		
 	}

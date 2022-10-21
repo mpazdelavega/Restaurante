@@ -15,22 +15,24 @@ public class MainUser implements UserDetails{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String userName;
-    private String email;
+    private String nombre;
+    private String apellido;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
 
-    public MainUser(String userName, String email, String password,
+    public MainUser(String userName, String nombre, String apellido, String password,
             Collection<? extends GrantedAuthority> authorities) {
         this.userName = userName;
-        this.email = email;
+        this.nombre = nombre;
+        this.apellido = apellido;
         this.password = password;
         this.authorities = authorities;
     }
     
     public static MainUser build(User user){
         List<GrantedAuthority> authorities = user.getRoles().stream().map(role-> new SimpleGrantedAuthority(role.getRoleName().name())).collect(Collectors.toList());
-        return new MainUser(user.getUserName(), user.getEmail(), user.getPassword(), authorities);
+        return new MainUser(user.getUserName(), user.getNombre(), user.getApellido(), user.getPassword(), authorities);
     }
     
     @Override
@@ -69,7 +71,11 @@ public class MainUser implements UserDetails{
     }
 
 
-    public String getEmail() {
-        return email;
+    public String getNombre() {
+        return nombre;
+    }
+    
+    public String getApellido() {
+        return apellido;
     }
 }

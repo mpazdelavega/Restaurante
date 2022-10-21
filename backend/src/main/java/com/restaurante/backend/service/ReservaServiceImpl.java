@@ -23,7 +23,7 @@ public class ReservaServiceImpl implements ReservaService{
 		return this.reservaRepository.findByClient_UserName(userName);
 	}
 	
-	public void cleanReserva(String clientId) {
+	public void cleanReserva(int clientId) {
 		this.reservaRepository.deleteByClient_Id(clientId);
 	}
 	
@@ -35,7 +35,7 @@ public class ReservaServiceImpl implements ReservaService{
 		this.reservaRepository.save(reserva);
 	}
 	
-	public Long getCountByClient(String clientId) {
+	public Long getCountByClient(int clientId) {
 		return this.reservaRepository.countByClient_Id(clientId);
 	}
 
