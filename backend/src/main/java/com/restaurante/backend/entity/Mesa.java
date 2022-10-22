@@ -30,8 +30,7 @@ public class Mesa {
 	private int id_mesa;
 	private String estado;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+    private String date;
 	@ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_tipo_mesa", nullable = false, updatable = false)
 	private Tipo_mesa tipo_mesa;
@@ -40,6 +39,16 @@ public class Mesa {
 		
 	}
 	
+	
+	
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
 	public int getId_mesa() {
 		return id_mesa;
 	}

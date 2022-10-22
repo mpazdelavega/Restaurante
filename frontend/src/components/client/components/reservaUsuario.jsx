@@ -74,11 +74,12 @@ function ReservaUsuario() {
     setOpen(false);
   };
 
-  const updateEstado = (id) => {
+  const updateEstado = (id,fecha) => {
     console.log(id)
     const mesa = {
       id_mesa: id,
       estado: "Disponible",
+      date: fecha,
     };
     updateMesa({mesa})
     
@@ -123,7 +124,7 @@ function ReservaUsuario() {
               Numero Mesa
             </th>
             <th scope="col" className="py-3 px-6">
-              Fecha
+              Fecha / hora reserva
             </th>
             <th scope="col" className="py-3 px-6">
               Estado
@@ -143,13 +144,13 @@ function ReservaUsuario() {
                 {item.id_reserva}
               </th>
               <td className="py-4 px-6">Mesa N°{item.mesa.id_mesa}</td>
-              <td className="py-4 px-6">{getDate(item.fecha)}</td>
+              <td className="py-4 px-6">{item.mesa.date}</td>
               {item.estado_reserva === "Cancelado" ? <td className="py-4 px-6">{item.estado_reserva}</td> : <td className="py-4 px-6">{item.mesa.estado}</td>}
               
               <td className="py-4 px-6 text-right">
               {item.estado_reserva != "Cancelado" ? <a
                   className="font-medium text-white dark:text-black hover:underline cursor-pointer"
-                  onClick={() => {updateEstado(item.mesa.id_mesa);updateReservaEstado(item.id_reserva);window.location.reload();}}
+                  onClick={() => {updateEstado(item.mesa.id_mesa, item.mesa.date);updateReservaEstado(item.id_reserva);window.location.reload();}}
                 >
                   Cancelar Reserva
                 </a>: null}
