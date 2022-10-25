@@ -10,16 +10,16 @@ import java.util.List;
 
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, String> {
     List<ShoppingCart> findByClient_Id(int clientId);
-    @Query(value="select * from pedido sc inner join usuario u on sc.client_id = u.id where u.user_name = ?1 and estado_pedido = 'Solicitado'", nativeQuery = true)
+    @Query(value="select * from pedido sc inner join usuario u on sc.client_id = u.id where u.user_name = ?1 and ((sc.estado_pedido = 'Solicitado') or (sc.estado_pedido = 'Enviado a Mesa')) order by sc.estado_pedido desc", nativeQuery = true)
     List<ShoppingCart> findByClient_UserName(String clientEmail);
     
-    @Query(value="select * from pedido sc inner join usuario u on sc.client_id = u.id where u.user_name = ?1 and estado_pedido = 'Seleccionado'", nativeQuery = true)
+    @Query(value="select * from pedido sc inner join usuario u on sc.client_id = u.id where u.user_name = ?1 and (sc.estado_pedido = 'Seleccionado') order by sc.estado_pedido desc", nativeQuery = true)
     List<ShoppingCart> findByClient_UserNameAndStatus(String clientEmail);
     void deleteByClient_Id(int clientId);
     Long countByClient_Id(int id);	
     
     @Modifying
-    @Query(value="update pedido set estado_pedido= 'Solicitado' where client_id = ?1", nativeQuery = true)
+    @Query(value="update pedido set estado_pedido = 'Solicitado' where client_id = ?1 and estado_pedido = 'Seleccionado'", nativeQuery = true)
     void updateByClient_Id(int client_id);
     
     /*

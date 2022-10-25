@@ -68,6 +68,7 @@ function Cart() {
       localStorage.setItem("number", number.toString());
       window.dispatchEvent(new Event("storage"));
       getShoppingList({ setProductList });
+      getShoppingListStatus({ setProductListStatus });
     });
   };
 
