@@ -60,6 +60,8 @@ function Cart() {
     getSales();
     getEstadoPedido();
     console.log(getIdClient(productList))
+    const timer = setTimeout(() => window.location.reload(), 20000);
+    
   }, []);
 
   const deleteItem = (itemId) => {
@@ -79,6 +81,9 @@ function Cart() {
     });
     return estadoPedido;
   };
+
+  setTimeout(() => {
+  }, 3000);
 
 
   const calculateTotal = (items) => {
@@ -241,13 +246,13 @@ function Cart() {
             <h1 className="font-semibold text-2xl border-b pb-8">Resumen pedido</h1>
             <div className="flex justify-between mt-10 mb-5">
               <span className="font-semibold text-sm uppercase">{number} Platos</span>
-              <span className="font-semibold text-sm">${calculateTotal(productList)}</span>
+              <span className="font-semibold text-sm">${calculateTotal(productListStatus)}</span>
             </div>
 
             <div className="border-t mt-8">
                 <div className="flex font-semibold justify-between py-6 text-sm uppercase">
                   <span>Costo total</span>
-                  <span>${calculateTotal(productList)}</span>
+                  <span>${calculateTotal(productListStatus)}</span>
                 </div>
               
               <button className="bg-amber-600 font-semibold hover:bg-amber-900 transition-colors py-3 text-sm text-white uppercase w-full" onClick={() => {

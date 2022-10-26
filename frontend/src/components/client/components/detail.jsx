@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getProductById, getRelatedProducts } from "../../../services/product";
 import { getUserDetails } from "../../../services/auth";
 import { addToCart } from "../../../services/shoppingCart";
+import { ToastContainer, toast } from "react-toastify"
 
 function Detail() {
   const [amountToAdd, setAmount] = useState(1);
@@ -51,38 +52,52 @@ function Detail() {
     }
     setProductFeedback({ show: false });
   };
+
+  const notifyPedido = () => {
+    toast.success('🍔 Se agrego un producto al pedido 🍕', {
+      position: "top-left",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+    
+  }
   return (
-    <div class="w-full max-w-6xl rounded bg-white p-10 lg:p-20 mx-auto text-gray-800 relative md:text-left">
-      <div class="border rounded-lg shadow-xl md:flex items-center -mx-10">
-        <div class="w-full md:w-1/2 px-10 mb-10 md:mb-0">
-          <div class="relative">
+    <div className="w-full max-w-6xl rounded bg-white p-10 lg:p-20 mx-auto text-gray-800 relative md:text-left">
+      <div className="border rounded-lg shadow-xl md:flex items-center -mx-10">
+        <div className="w-full md:w-1/2 px-10 mb-10 md:mb-0">
+          <div className="relative">
             <img
               src={product && product.image}
               alt="product"
-              class="w-full relative z-10"
+              className="w-full relative z-10"
             />
           </div>
         </div>
-        <div class="w-full md:w-1/2 px-10">
-          <div class="mb-10">
-            <h1 class="font-bold text-2xl mb-5">{product && product.name}</h1>
-            <p class="text-sm">{product && product.description}</p>
+        <div className="w-full md:w-1/2 px-10">
+          <div className="mb-10">
+            <h1 className="font-bold text-2xl mb-5">{product && product.name}</h1>
+            <p className="text-sm">{product && product.description}</p>
           </div>
           <div>
-            <div class="inline-block align-bottom mr-5 mb-5">
-              <span class="text-2xl leading-none align-baseline">$</span>
-              <span class="font-bold text-5xl leading-none align-baseline">
+            <div className="inline-block align-bottom mr-5 mb-5">
+              <span className="text-2xl leading-none align-baseline">$</span>
+              <span className="font-bold text-5xl leading-none align-baseline">
                 {product && product.price}
               </span>
             </div>
-            <div class="inline-block align-bottom mb-5">
+            <div className="inline-block align-bottom mb-5">
               <button
                 onClick={() => {
-                  addProduct(product);
+                  addProduct(product);notifyPedido();
                 }}
-                class="bg-amber-600 opacity-75 hover:opacity-100 text-white transition-colors hover:bg-amber-900 rounded-full px-10 py-2 font-semibold"
+                className="bg-amber-600 opacity-75 hover:opacity-100 text-white transition-colors hover:bg-amber-900 rounded-full px-10 py-2 font-semibold"
               >
-                <i class="mdi mdi-cart -ml-2 mr-2"></i> Agregar
+                <i className="mdi mdi-cart -ml-2 mr-2"></i> Agregar
               </button>
             </div>
           </div>
@@ -119,7 +134,7 @@ function Detail() {
                 </span>
                 <button
                   onClick={() => {
-                    addProduct(related, 1);
+                    addProduct(related, 1);notifyPedido();
                   }}
                   className="bg-amber-600 hover:bg-amber-900 transition-colors text-white p-1.5 rounded-full"
                 >
@@ -130,6 +145,7 @@ function Detail() {
           </div>
         ))}
       </div>
+      <ToastContainer />
     </div>
   );
 }

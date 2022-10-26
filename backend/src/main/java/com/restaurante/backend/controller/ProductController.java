@@ -25,7 +25,7 @@ public class ProductController {
         this.productService = productService;
     }
     @GetMapping("/{product_id}")
-    public ResponseEntity<Object> getProductById(@PathVariable("product_id")String productId){
+    public ResponseEntity<Object> getProductById(@PathVariable("product_id")int productId){
         Optional<Product> productOptional = this.productService.getProductById(productId);
         if (productOptional.isEmpty())
             return new ResponseEntity<>(new Message("No encontrado"), HttpStatus.NOT_FOUND);
@@ -40,7 +40,7 @@ public class ProductController {
         return new ResponseEntity<>(this.productService.getBestPriceProducts(),HttpStatus.OK);
     }
     @GetMapping("/related/{category}/{product_id}")
-    public ResponseEntity<Object> getRelatedProduct(@PathVariable("category")String category, @PathVariable("product_id")String productId){
+    public ResponseEntity<Object> getRelatedProduct(@PathVariable("category")String category, @PathVariable("product_id")int productId){
         return new ResponseEntity<>(this.productService.getRelatedProducts(category,productId),HttpStatus.OK);
     }
     @PostMapping("/create")

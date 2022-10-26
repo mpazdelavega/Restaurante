@@ -118,6 +118,12 @@ function Header() {
                 Reservar
               </li>
             </a>
+            <a href="/store/reservas">
+              <li className="text-xl py-4 flex cursor-pointer">
+                <RiReservedFill size={25} className="mr-4 text-amber-600" />{" "}
+                Mis reservas
+              </li>
+            </a>
 
             <a href="/store/cart">
               <li className="text-xl py-4 flex cursor-pointer">

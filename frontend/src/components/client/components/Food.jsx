@@ -20,7 +20,35 @@ const Food = () => {
     getUserDetails({ setUserRole })
     getAllProducts({ setProductList })
     getBestProducts({ setBestProductList })
+    console.log(getCategoria())
   }, [refresh])
+
+
+  const getCategoria = () => {
+    let categoria = '';
+    productList.forEach((item) => {
+      categoria = item.category;
+    })
+    return categoria;
+  }
+
+  // const getReservas = () => {
+  //   let reserva = '';
+  //   let estado = '';
+  //   let mesa = '';
+  //   productList.forEach((item) => {
+  //     reserva = item.client.id;
+  //     estado = item.estado_reserva;
+  //     mesa = item.mesa.id_mesa;
+  //   });
+  //   if(reserva === getIdClient()){
+  //     return estado;
+  //   }
+    
+
+  //   //return console.log("getReservas: " + reserva + " " + estado + " " + mesa);
+    
+  // };
 
   const handleOpenModal = () => setOpenModal(true)
   const closeProductFeedback = (event, reason) => {
@@ -50,12 +78,13 @@ const Food = () => {
 
   return (
     <div className='max-w-[1640px] m-auto px-4 py-12'>
+      
       <h1 className='text-amber-600 font-bold text-4xl text-center'>
-        Mejores productos
+        Menu
       </h1>
       {/* Display foods */}
       <div className='grid grid-cols-2 lg:grid-cols-4 gap-6 pt-4'>
-        {bestProductList.map((productItem) => (
+        {productList.map((productItem) => (
           <div
             key={productItem.id}
             className='border shadow-lg rounded-lg hover:scale-105 duration-300'
@@ -85,11 +114,11 @@ const Food = () => {
         ))}
       </div>
       <h1 className='text-amber-600 font-bold text-4xl text-center mt-10'>
-        Menu
+        Extras
       </h1>
       {/* Display foods */}
       <div className='grid grid-cols-2 lg:grid-cols-4 gap-6 pt-4'>
-        {productList.map((productItem) => (
+        {bestProductList.map((productItem) => (
           <div
             key={productItem.id}
             className='border shadow-lg rounded-lg hover:scale-105 duration-300'

@@ -26,9 +26,9 @@ public class ProductService {
         this.productRepository.save(product);
     }
    public List<Product> getAllProducts(){
-        return this.productRepository.findAll();
+        return this.productRepository.findAllWithoutEx();
    }
-   public List<Product> getRelatedProducts(String category, String productId){
+   public List<Product> getRelatedProducts(String category, int productId){
         List<Product> productList = this.productRepository.findByCategoryAndIdNot(category,productId);
         List<Product> randomProducts = new ArrayList<>();
        Random random = new Random();
@@ -45,7 +45,7 @@ public class ProductService {
        
        return randomProducts;
    }
-   public Optional<Product> getProductById(String id){
+   public Optional<Product> getProductById(int id){
         return this.productRepository.findById(id);
    }
    public List<Product> getBestPriceProducts(){
