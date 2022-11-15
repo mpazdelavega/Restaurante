@@ -55,3 +55,8 @@ export const getSaleList = ({ setSalesList }) => {
         setSalesList(response.data)
     })
 }
+
+export const mercadoPago = () => {
+    const mpUrl = `http://localhost:3003/crear-orden`
+    return axios.post(mpUrl, null, { withCredentials: true })
+}
