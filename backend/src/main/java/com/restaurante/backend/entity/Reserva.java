@@ -23,6 +23,8 @@ public class Reserva {
     @Column(columnDefinition = "DATE", updatable = false, nullable = false)
     private Date fecha;
 	@NotNull
+    private String hora;
+	@NotNull
     private String estado_reserva;
     @ManyToOne(optional = false, cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_mesa", nullable = false, updatable = false)
@@ -71,6 +73,18 @@ public class Reserva {
 	public void setClient(User client) {
 		this.client = client;
 	}
+
+
+	public String getHora() {
+		return hora;
+	}
+
+
+	public void setHora(String hora) {
+		this.hora = hora;
+	}
+	
+	
     
     
 

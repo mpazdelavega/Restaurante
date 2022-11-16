@@ -60,8 +60,8 @@ function Mesa(props) {
     setProductFeedback({ show: false });
   };
 
-  const addMesa = (fechaToAdd, mesaToAdd) => {
-    addReserva({ fechaToAdd, mesaToAdd })
+  const addMesa = (fechaToAdd, mesaToAdd, horaToAdd) => {
+    addReserva({ fechaToAdd, mesaToAdd, horaToAdd })
     
     //updateMesa({mesa})
     //console.log(mesaToAdd, fechaToAdd)
@@ -93,6 +93,17 @@ function Mesa(props) {
       
   }
 
+  const getInitialState = () => {
+    const value = "Seleccionar hora";
+    return value;
+  };
+
+  const [value, setValue] = useState(getInitialState);
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
+
 
   var today = new Date(),
   date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + (today.getDate() + 1);
@@ -105,37 +116,49 @@ function Mesa(props) {
         Mesas disponibles
       </h1>
       {/* Display foods */}
-      <div className='grid grid-cols-2 lg:grid-cols-4 gap-6 pt-4'>
+      <div className='grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-6 pt-4'>
         {mesaList.map((item) => (
           <div
             key={item.id_mesa}
             className='border shadow-lg rounded-lg hover:scale-105 duration-300 '
           >
             
-              
+            <a href={'//localhost:3000/store/detailMesa/' + item.id_mesa}>
             <img
               src={item.tipo_mesa.foto}
               alt={item.tipo_mesa.descripcion}
               className='w-full h-[200px] object-cover rounded-t-lg '
             />
-
+            </a>
             
-            <div className='flex justify-between px-2 py-4'>
-              <p className='font-bold'>Mesa N°{item.tipo_mesa.id_tipo_mesa}</p>
+            <div className='flex px-5 py-4'>
+              <p><span className='bg-amber-600 text-xs text-white p-2 mr-1 rounded-full'>
+                N°{item.tipo_mesa.id_tipo_mesa}
+                </span></p>
               <p>
-              <span className='bg-amber-600 text-white p-2 mr-2 rounded-full'>
-                  {item.tipo_mesa.capacidad} Personas
+              <span className='bg-amber-600 text-xs text-white p-2 mr-1 rounded-full'>
+                  {item.tipo_mesa.capacidad} P
                 </span>
-                {item.estado === "Disponible" ? <button className='bg-amber-600 hover:bg-amber-900 transition-colors text-white p-1.5 rounded-full' onClick={() => {addMesa(date, item);updateEstado(item.id_mesa,item.date);notifyReserva();getReservas();}}>
-                    Reservar
-                </button>: <button className='bg-gray-600 text-gray-300 p-1.5 rounded-full disabled' >
-                    Reservada
-                </button>}
+                
                 
               </p>
             </div>
-            <p className='font-bold text-center mb-5'>{item.date}</p>
             
+            <div className="relative w-full lg:max-w-sm">
+            {item.estado === "Disponible" ? <button className='bg-amber-600 hover:bg-amber-900 transition-colors text-white ml-4 p-1 w-5/6 rounded-full' onClick={() => {addMesa(date, item, value);updateEstado(item.id_mesa,item.date);notifyReserva();getReservas();}}>
+                    Reservar
+                </button>: <button className='bg-gray-600 text-gray-300 p-1.5 rounded-full disabled w-5/6 ml-4' >
+                    Reservada
+                </button>}
+            <p className='font-bold text-center mt-5 mb-2'>{item.date}</p>
+            <select value={value} onChange={handleChange} className="mb-5 ml-4 w-5/6 p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
+                <option>Seleccionar hora</option>
+                <option>13:00</option>
+                <option>14:00</option>
+                <option>15:00</option>
+                <option>16:00</option>
+            </select>
+        </div>
           </div>
         ))}
         {/* {item.estado === "Disponible" || item.estado === "Cancelado" ? <button className='bg-amber-600 hover:bg-amber-900 transition-colors text-white p-1.5 rounded-full' onClick={() => {addMesa(date, item);updateEstado(item.id_mesa);notifyReserva();getReservas()}}>
@@ -150,6 +173,7 @@ function Mesa(props) {
           </div>
         ))} */}
       </div>
+      
       <ToastContainer />
     </div>
   );

@@ -8,11 +8,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import com.mercadopago.client.preference.PreferenceClient;
+import com.mercadopago.client.preference.PreferenceItemRequest;
+import com.mercadopago.client.preference.PreferenceRequest;
+import com.mercadopago.client.preference.PreferenceTrackRequest;
+import com.mercadopago.exceptions.MPApiException;
+import com.mercadopago.exceptions.MPException;
+import com.mercadopago.resources.preference.Preference;
 import com.restaurante.backend.entity.Message;
+import com.restaurante.backend.entity.PreferenceItem;
 import com.restaurante.backend.entity.ShoppingCart;
 import com.restaurante.backend.service.ShoppingCartServiceImpl;
+import com.mercadopago.MercadoPagoConfig;
 
 import javax.validation.Valid;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -20,6 +32,8 @@ import java.util.List;
 @RequestMapping("/shoppingList")
 public class ShoppingCartController {
     private final ShoppingCartServiceImpl shoppingCartService;
+    
+    
 
     @Autowired
     public ShoppingCartController(ShoppingCartServiceImpl shoppingCartService) {
@@ -67,4 +81,38 @@ public class ShoppingCartController {
     	shoppingCartService.updateShoppingCart(id);
     	return new ResponseEntity<>(new Message("Actualizado"),HttpStatus.OK);
 	}
+    
+    @PostMapping("/mercado")
+    public ResponseEntity<String> getMP(@RequestBody List<ShoppingCart> lista){
+    	PreferenceClient client = new PreferenceClient();
+
+        List<PreferenceItemRequest> items = new ArrayList<>();
+        PreferenceItemRequest item =
+                PreferenceItemRequest.builder()
+                        .title("Teclado")
+                        .description("Dummy description")
+                        .quantity(1)
+                        .unitPrice(new BigDecimal(10))
+                        .build();
+        items.add(item);
+
+        List<PreferenceTrackRequest> tracks = new ArrayList<>();
+
+        PreferenceRequest request = PreferenceRequest.builder().items(items).tracks(tracks).build();
+
+        try {
+			//System.out.println(client.create(request).getId());
+			return ResponseEntity.ok(client.create(request).getId());
+		} catch (MPException e) {
+			System.out.println("AAAAA");
+			e.printStackTrace();
+		} catch (MPApiException e) {
+			System.out.println("AAAAA2");
+			e.printStackTrace();
+		}
+        System.out.println("AAAAA3");
+        return ResponseEntity.noContent().build();
+    }   	
+    
+    
 }

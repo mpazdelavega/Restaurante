@@ -17,18 +17,31 @@ import { useMercadopago } from "react-sdk-mercadopago"
 function Cart() {
 
   const mercadopago = useMercadopago.v2(
-    "TEST-cb056feb-c47e-4108-8381-8ff6bd10b851",
-    {
-      locale: "es-MX"
-    }
+    "TEST-eeb97aea-4c9f-4d11-b653-091bd6cb6c27"
   );
   const [rendered, setRendered] = useState(false);
+
+  //const { id } = useParams(); // id de producto
+  const [preferenceId, setPreferenceId] = useState(null);
+  const [productList, setProductList] = useState([]);
+  const [productListStatus, setProductListStatus] = useState([]);
+
+  useEffect(() => {
+    // luego de montarse el componente, le pedimos al backend el preferenceId
+    console.log(productList)
+    axios
+      .post("http://localhost:8080/shoppingList/mercado", productList)
+      .then((response) => {
+        setPreferenceId(response)
+      })
+      
+  }, [productListStatus, productList]);
 
   useEffect(() => {
     if (mercadopago && !rendered) {
       mercadopago.checkout({
         preference: {
-          id: "770826081-6174eaec-958a-495c-9ce5-02279182527c"
+          id: preferenceId
         },
         render: {
           container: ".cho-container",
@@ -59,8 +72,8 @@ function Cart() {
     };
   }, [number]);
 
-  const [productList, setProductList] = useState([]);
-  const [productListStatus, setProductListStatus] = useState([]);
+  
+  
 
   const [salesList, setSalesList] = useState([]);
   const [open, setOpen] = useState(false);

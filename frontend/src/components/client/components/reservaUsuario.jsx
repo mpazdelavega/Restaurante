@@ -144,7 +144,7 @@ function ReservaUsuario() {
                 {item.id_reserva}
               </th>
               <td className="py-4 px-6">Mesa N°{item.mesa.id_mesa}</td>
-              <td className="py-4 px-6">{item.mesa.date}</td>
+              <td className="py-4 px-6">{item.mesa.date} {item.hora}</td>
               {item.estado_reserva === "Cancelado" ? <td className="py-4 px-6">{item.estado_reserva}</td> : <td className="py-4 px-6">{item.mesa.estado}</td>}
               
               <td className="py-4 px-6 text-right">

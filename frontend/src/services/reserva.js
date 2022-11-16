@@ -1,12 +1,13 @@
 import { getApiUrl } from './apiConfig'
 import axios from 'axios'
 
-export const addReserva = ({ fechaToAdd, mesaToAdd }) => {
+export const addReserva = ({ fechaToAdd, mesaToAdd, horaToAdd }) => {
     const addUrl = getApiUrl('reserva')
     const userDetailUrl = getApiUrl('auth/details')
     axios.get(userDetailUrl, { withCredentials: true }).then(userDetails => {
         let reservaObject = {
             fecha: fechaToAdd,
+            hora: horaToAdd,
             estado_reserva: "No Cancelado",
             client: userDetails.data,
             mesa: mesaToAdd
