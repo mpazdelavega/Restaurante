@@ -87,32 +87,28 @@ public class ShoppingCartController {
     	PreferenceClient client = new PreferenceClient();
 
         List<PreferenceItemRequest> items = new ArrayList<>();
-        PreferenceItemRequest item =
-                PreferenceItemRequest.builder()
-                        .title("Teclado")
-                        .description("Dummy description")
-                        .quantity(1)
-                        .unitPrice(new BigDecimal(10))
-                        .build();
-        items.add(item);
+        for (ShoppingCart shoppingCart : lista) {
+            PreferenceItemRequest item =
+                    PreferenceItemRequest.builder()
+                            .title(shoppingCart.getProduct().getName())
+                            .description(shoppingCart.getProduct().getDescription())
+                            .quantity(shoppingCart.getAmount())
+                            .unitPrice(new BigDecimal(shoppingCart.getProduct().getPrice()))
+                            .build();
+            items.add(item);
+        }
 
         List<PreferenceTrackRequest> tracks = new ArrayList<>();
 
         PreferenceRequest request = PreferenceRequest.builder().items(items).tracks(tracks).build();
-
         try {
-			//System.out.println(client.create(request).getId());
+            client.create(request);
 			return ResponseEntity.ok(client.create(request).getId());
 		} catch (MPException e) {
-			System.out.println("AAAAA");
-			e.printStackTrace();
 		} catch (MPApiException e) {
-			System.out.println("AAAAA2");
-			e.printStackTrace();
 		}
-        System.out.println("AAAAA3");
         return ResponseEntity.noContent().build();
-    }   	
+    }    	
     
     
 }

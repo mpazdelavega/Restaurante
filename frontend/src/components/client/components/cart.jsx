@@ -17,7 +17,10 @@ import { useMercadopago } from "react-sdk-mercadopago"
 function Cart() {
 
   const mercadopago = useMercadopago.v2(
-    "TEST-eeb97aea-4c9f-4d11-b653-091bd6cb6c27"
+    "TEST-4d3b8d1f-820b-4fb7-bb9a-de76881fff04",
+    {
+      locale: "es-CL",
+    }
   );
   const [rendered, setRendered] = useState(false);
 
@@ -26,31 +29,31 @@ function Cart() {
   const [productList, setProductList] = useState([]);
   const [productListStatus, setProductListStatus] = useState([]);
 
-  useEffect(() => {
-    // luego de montarse el componente, le pedimos al backend el preferenceId
-    console.log(productList)
-    axios
+  const fetchData = () => {
+    return axios
       .post("http://localhost:8080/shoppingList/mercado", productList)
       .then((response) => {
-        setPreferenceId(response)
-      })
-      
-  }, [productListStatus, productList]);
+        return response.data;
+      });
+  };
 
   useEffect(() => {
-    if (mercadopago && !rendered) {
-      mercadopago.checkout({
-        preference: {
-          id: preferenceId
-        },
-        render: {
-          container: ".cho-container",
-          label: "PAGAR PEDIDO"
-        }
-      });
-      setRendered(true);
-    }
-  }, [mercadopago, rendered]);
+    const fetch = async () => {
+      const a = await fetchData();
+      if (mercadopago && a != "") {
+        mercadopago.checkout({
+          preference: {
+            id: a,
+          },
+          render: {
+            container: ".cho-container",
+            label: "PAGAR PEDIDO",
+          },
+        });
+      }
+    };
+    fetch();
+  }, [mercadopago]);
 
   const [clientData, setClientData] = useState({ client_id: "" });
 
