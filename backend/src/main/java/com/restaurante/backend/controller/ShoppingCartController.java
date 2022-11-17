@@ -14,12 +14,9 @@ import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.client.preference.PreferenceTrackRequest;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
-import com.mercadopago.resources.preference.Preference;
 import com.restaurante.backend.entity.Message;
-import com.restaurante.backend.entity.PreferenceItem;
 import com.restaurante.backend.entity.ShoppingCart;
 import com.restaurante.backend.service.ShoppingCartServiceImpl;
-import com.mercadopago.MercadoPagoConfig;
 
 import javax.validation.Valid;
 
@@ -79,6 +76,14 @@ public class ShoppingCartController {
 	{
     	System.out.println("Controller: " + id);
     	shoppingCartService.updateShoppingCart(id);
+    	return new ResponseEntity<>(new Message("Actualizado"),HttpStatus.OK);
+	}
+    
+    @PutMapping("/pagar/{client_id}")
+	private ResponseEntity<Message> pagarPedido(@PathVariable("client_id") int id)
+	{
+    	//System.out.println("Controller: " + id);
+    	shoppingCartService.updateShoppingCartPagar(id);
     	return new ResponseEntity<>(new Message("Actualizado"),HttpStatus.OK);
 	}
     

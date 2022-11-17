@@ -186,6 +186,19 @@ function Cart() {
     });
   };
 
+  const notifyPedidoPagado = () => {
+    toast.success("💵 Un camarero se acercara a su mesa para relizar el pago en efectivo 💵", {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+
   return (
     <div className="container mx-auto xl:pb-16 mt-10">
       <div className="flex shadow-md my-10">
@@ -424,12 +437,12 @@ function Cart() {
               <span>${calculateTotal(productList)}</span>
             </div>
 
-            {/* <button
+            <button
               className="bg-green-600 font-semibold hover:bg-green-900 transition-colors py-3 text-sm text-white uppercase w-full"
-              
+              onClick={() => { confirmSale();notifyPedidoPagado(); }}
             >
-              Realizar pago
-            </button> */}
+              PAGAR EFECTIVO
+            </button> 
             <div className="cho-container" />
           </div>
         </div>

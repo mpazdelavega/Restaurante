@@ -22,6 +22,10 @@ public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Stri
     @Query(value="update pedido set estado_pedido = 'Solicitado' where client_id = ?1 and estado_pedido = 'Seleccionado'", nativeQuery = true)
     void updateByClient_Id(int client_id);
     
+    @Modifying
+    @Query(value="update pedido set estado_pedido = 'Finalizado' where client_id = ?1 and estado_pedido = 'Solicitado'", nativeQuery = true)
+    void updatePagarByClient_Id(int client_id);
+    
     /*
     @Query(value="update shopping_cart sc inner join users u on sc.client_id = u.id set sc.estado_pedido= 'Solicitado' where u.user_name = ?1", nativeQuery = true)
     void updateByClient_Id(String client_id);

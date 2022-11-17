@@ -45,5 +45,10 @@ public class ShoppingCartServiceImpl{
 		
 	}
 	
+	public void updateShoppingCartPagar(int id) {
+		this.shoppingCartRepository.updatePagarByClient_Id(id);
+		
+	}
+	
 	
 }
