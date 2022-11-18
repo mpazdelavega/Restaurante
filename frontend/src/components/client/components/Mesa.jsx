@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css"
 function Mesa(props) {
   const [roles, setUserRole] = useState([{}])
   const [mesaList, setMesaList] = useState([])
-  const [productList, setProductList] = useState([]);
+  const [listaReserva, setListaReserva] = useState([]);
   
   const [refresh, setRefresh] = useState(false)
   const [openModal, setOpenModal] = useState(false)
@@ -18,19 +18,19 @@ function Mesa(props) {
   useEffect(() => {
     getUserDetails({ setUserRole })
     getAllMesas({ setMesaList })
-    getReservaList({ setProductList })
+    getReservaList({ setListaReserva })
     getReservas()
   }, [refresh])
 
   const getList = () => {
-    getReservaList({ setProductList });
+    getReservaList({ setListaReserva });
   };
 
   const getReservas = () => {
     let reserva = '';
     let estado = '';
     let mesa = '';
-    productList.forEach((item) => {
+    listaReserva.forEach((item) => {
       reserva = item.client.id;
       estado = item.estado_reserva;
       mesa = item.mesa.id_mesa;
@@ -46,7 +46,7 @@ function Mesa(props) {
 
   const getIdClient = () => {
     let clientId = '';
-    productList.forEach((item) => {
+    listaReserva.forEach((item) => {
       clientId = item.client.id;
     });
     return clientId;

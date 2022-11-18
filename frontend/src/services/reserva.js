@@ -20,10 +20,10 @@ export const deleteReservaItem = ({ itemId }) => {
     const deleteUrl = getApiUrl(`reserva/clean/${itemId}`)
     return axios.delete(deleteUrl, { withCredentials: true })
 }
-export const getReservaList = ({ setProductList }) => {
+export const getReservaList = ({ setListaReserva }) => {
     const listUrl = getApiUrl("reserva")
     axios.get(listUrl, { withCredentials: true }).then(response => {
-        setProductList(response.data)
+        setListaReserva(response.data)
     })
 }
 export const generateSale = () => {

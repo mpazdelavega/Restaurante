@@ -6,13 +6,17 @@ import { RiReservedFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { IoCalendar } from "react-icons/io5";
 import { logout } from "../../../services/auth";
+import { getReservaList } from "../../../services/reserva";
 
 function Header() {
   const [nav, setNav] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   var navigate = useNavigate();
   let [number, setNumber] = useState(0);
+  const [listaReserva, setListaReserva] = useState([]);
   useEffect(() => {
     let shouldUpdate = true;
+
     const getUserCart = () => {
       const item = localStorage.getItem("number");
       if (item) {
@@ -27,6 +31,27 @@ function Header() {
       shouldUpdate = false;
     };
   }, [number]);
+
+  useEffect(() => {
+    getReservaList({ setListaReserva });
+    console.log(getNumeroMesa());
+  }, [refresh]);
+
+  const getNumeroMesa = () => {
+    let nMesa = "";
+    listaReserva.forEach((item) => {
+      nMesa = item.mesa.id_mesa;
+    });
+    return nMesa;
+  };
+
+  const getEstadoReservaUsuario = () => {
+    let estadoReserva = '';
+    listaReserva.forEach((item) => {
+      estadoReserva = item.estado_reserva;
+    })
+    return estadoReserva;
+  }
 
   const closeSession = () => {
     logout({ navigate });
@@ -44,7 +69,8 @@ function Header() {
         </h1>
 
         <div className="hidden md:flex items-center bg-white rounded-full  text-[14px]">
-          <p className="font-bold text-amber-600 rounded-full p-2">Mesa N°1</p>
+        {getEstadoReservaUsuario() === "No Cancelado" ? <p className="font-bold text-amber-600 rounded-full p-2">Mesa N°{getNumeroMesa()}</p>:null}
+          
         </div>
       </div>
 
@@ -120,8 +146,8 @@ function Header() {
             </a>
             <a href="/store/reservas">
               <li className="text-xl py-4 flex cursor-pointer">
-                <RiReservedFill size={25} className="mr-4 text-amber-600" />{" "}
-                Mis reservas
+                <RiReservedFill size={25} className="mr-4 text-amber-600" /> Mis
+                reservas
               </li>
             </a>
 

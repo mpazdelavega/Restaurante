@@ -6,6 +6,7 @@ import { getAllProducts, getBestProducts } from '../../../services/product'
 import { addToCart } from '../../../services/shoppingCart'
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import { getReservaList } from "../../../services/reserva";
 
 const Food = () => {
   const [roles, setUserRole] = useState([{}])
@@ -15,14 +16,32 @@ const Food = () => {
   const [refresh, setRefresh] = useState(false)
   const [openModal, setOpenModal] = useState(false)
   const [showProductFeedback, setProductFeedback] = React.useState({ show: false, status: false, infoText: '' })
+  const [listaReserva, setListaReserva] = useState([]);
 
   useEffect(() => {
     getUserDetails({ setUserRole })
     getAllProducts({ setProductList })
     getBestProducts({ setBestProductList })
-    console.log(getCategoria())
+    getReservaList({ setListaReserva })
+    console.log(listaReserva)
   }, [refresh])
 
+  const getUsuarioReserva = () => {
+    let user = '';
+    listaReserva.forEach((item) => {
+      user = item.client.id;
+    })
+    return user;
+  }
+
+
+  const getEstadoReservaUsuario = () => {
+    let estadoReserva = '';
+    listaReserva.forEach((item) => {
+      estadoReserva = item.estado_reserva;
+    })
+    return estadoReserva;
+  }
 
   const getCategoria = () => {
     let categoria = '';
@@ -84,6 +103,7 @@ const Food = () => {
       </h1>
       {/* Display foods */}
       <div className='grid grid-cols-2 lg:grid-cols-4 gap-6 pt-4'>
+        
         {productList.map((productItem) => (
           <div
             key={productItem.id}
@@ -102,11 +122,12 @@ const Food = () => {
                 <span className='bg-amber-600 text-white p-2 mr-2 rounded-full'>
                   ${productItem.price}
                 </span>
-                <button onClick={() => {
+                {getEstadoReservaUsuario() === "No Cancelado" ? <button onClick={() => {
               addProduct(productItem, 1);notifyPedido();
             }} className='bg-amber-600 hover:bg-amber-900 transition-colors text-white p-1.5 rounded-full'>
                     Agregar
-                </button>
+                </button> : null}
+                
               </p>
             </div>
             

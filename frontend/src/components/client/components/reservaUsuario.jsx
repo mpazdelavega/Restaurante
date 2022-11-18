@@ -11,8 +11,14 @@ import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
 function ReservaUsuario() {
+
+  const [listaReserva, setListaReserva] = useState([]);
+  const [salesList, setSalesList] = useState([]);
+  const [open, setOpen] = useState(false);
+
   let [number, setNumber] = useState(0);
   useEffect(() => {
+    console.log("Lista reserva: " + listaReserva)
     let shouldUpdate = true;
     const getUserCart = () => {
       const item = localStorage.getItem("number");
@@ -28,15 +34,15 @@ function ReservaUsuario() {
       shouldUpdate = false;
     };
   }, [number]);
-  const [productList, setProductList] = useState([]);
-  const [salesList, setSalesList] = useState([]);
-  const [open, setOpen] = useState(false);
+  
   const getList = () => {
-    getReservaList({ setProductList });
+    getReservaList({ setListaReserva });
   };
+
   const getSales = () => {
     getSaleList({ setSalesList });
   };
+
   useEffect(() => {
     getList();
     getSales();
@@ -44,9 +50,10 @@ function ReservaUsuario() {
   const deleteItem = (itemId) => {
     deleteReservaItem({ itemId }).then(() => {
         
-        getReservaList({ setProductList });
+        getReservaList({ setListaReserva });
     });
   };
+
   //   const calculateTotal = (items) => {
   //     let total = 0;
   //     items.forEach((item) => {
@@ -135,7 +142,7 @@ function ReservaUsuario() {
             </th>
           </tr>
         </thead>
-        {productList.map((item) => (
+        {listaReserva.map((item) => (
           <tbody key={item.id_reserva}>
             <tr className="bg-white border-b dark:bg-white dark:border-amber-600 hover:bg-gray-50 dark:hover:bg-amber-600">
               <th
