@@ -61,26 +61,51 @@ function Mesa(props) {
   };
 
   const addMesa = (fechaToAdd, mesaToAdd, horaToAdd) => {
-    addReserva({ fechaToAdd, mesaToAdd, horaToAdd })
+    if(horaToAdd === "Seleccionar hora"){
+      notifyAlerta();
+    }
+    else{
+      addReserva({ fechaToAdd, mesaToAdd, horaToAdd });
+    }
+    
     
     //updateMesa({mesa})
     //console.log(mesaToAdd, fechaToAdd)
   }
 
-  const updateEstado = (id,fecha) => {
-    console.log(id)
+  const updateEstado = (id,fecha, hora) => {
     const mesa = {
       id_mesa: id,
       estado: "Reservada",
       date: fecha,
     };
-    updateMesa({mesa})
+    console.log(id)
+    if(hora !== "Seleccionar hora"){
+      updateMesa({mesa})
+      notifyReserva();
+    }
+    
+    
     //window.location.replace('');
     
   } 
 
   const notifyReserva = () => {
     toast.success('📅 Mesa reservada correctamente ', {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
+      
+  }
+
+  const notifyAlerta = () => {
+    toast.error(' Por favor, seleccione una hora ', {
       position: "bottom-center",
       autoClose: 5000,
       hideProgressBar: false,
@@ -103,6 +128,8 @@ function Mesa(props) {
   const handleChange = (e) => {
     setValue(e.target.value);
   };
+
+  var Data= ['11:00', '12:00', '13:00', '14:00']
 
 
   var today = new Date(),
@@ -145,18 +172,14 @@ function Mesa(props) {
             </div>
             
             <div className="relative w-full lg:max-w-sm">
-            {item.estado === "Disponible" ? <button className='bg-amber-600 hover:bg-amber-900 transition-colors text-white ml-4 p-1 w-5/6 rounded-full' onClick={() => {addMesa(date, item, value);updateEstado(item.id_mesa,item.date);notifyReserva();getReservas();}}>
+            <button className='bg-amber-600 hover:bg-amber-900 transition-colors text-white ml-4 p-1 w-5/6 rounded-full' onClick={() => {addMesa(date, item, value);updateEstado(item.id_mesa,item.date, value);getReservas();}}>
                     Reservar
-                </button>: <button className='bg-gray-600 text-gray-300 p-1.5 rounded-full disabled w-5/6 ml-4' >
-                    Reservada
-                </button>}
+                </button>
             <p className='font-bold text-center mt-5 mb-2'>{item.date}</p>
             <select value={value} onChange={handleChange} className="mb-5 ml-4 w-5/6 p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
-                <option>Seleccionar hora</option>
-                <option>13:00</option>
-                <option>14:00</option>
-                <option>15:00</option>
-                <option>16:00</option>
+                <option disabled>Seleccionar hora</option>
+                {Data.map( (x,y) => 
+                <option key={y}>{x}</option>)}
             </select>
         </div>
           </div>

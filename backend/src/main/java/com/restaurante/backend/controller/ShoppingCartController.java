@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
 import com.mercadopago.client.preference.PreferenceClient;
 import com.mercadopago.client.preference.PreferenceItemRequest;
 import com.mercadopago.client.preference.PreferenceRequest;
@@ -16,6 +17,7 @@ import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.restaurante.backend.entity.Message;
 import com.restaurante.backend.entity.ShoppingCart;
+import com.restaurante.backend.service.SaleService;
 import com.restaurante.backend.service.ShoppingCartServiceImpl;
 
 import javax.validation.Valid;
@@ -30,11 +32,12 @@ import java.util.List;
 public class ShoppingCartController {
     private final ShoppingCartServiceImpl shoppingCartService;
     
-    
+    private final SaleService saleService;
 
     @Autowired
-    public ShoppingCartController(ShoppingCartServiceImpl shoppingCartService) {
+    public ShoppingCartController(ShoppingCartServiceImpl shoppingCartService, SaleService saleService) {
         this.shoppingCartService = shoppingCartService;
+		this.saleService = saleService;
     }
 
     @GetMapping()
@@ -90,7 +93,10 @@ public class ShoppingCartController {
     @PostMapping("/mercado")
     public ResponseEntity<String> getMP(@RequestBody List<ShoppingCart> lista){
     	PreferenceClient client = new PreferenceClient();
-
+    	//UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	//String userName = userDetails.getUsername();
+    	//this.saleService.createSale(userName);
+    	String homeUrl = "http://localhost:3000/store";
         List<PreferenceItemRequest> items = new ArrayList<>();
         for (ShoppingCart shoppingCart : lista) {
             PreferenceItemRequest item =
@@ -102,10 +108,14 @@ public class ShoppingCartController {
                             .build();
             items.add(item);
         }
+        
+        PreferenceBackUrlsRequest back = PreferenceBackUrlsRequest.builder().success(homeUrl).build();
 
         List<PreferenceTrackRequest> tracks = new ArrayList<>();
 
-        PreferenceRequest request = PreferenceRequest.builder().items(items).tracks(tracks).build();
+        PreferenceRequest request = PreferenceRequest.builder().items(items).tracks(tracks).backUrls(back).build();
+        
+
         try {
             client.create(request);
 			return ResponseEntity.ok(client.create(request).getId());

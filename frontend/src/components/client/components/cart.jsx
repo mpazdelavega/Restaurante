@@ -40,14 +40,14 @@ function Cart() {
   useEffect(() => {
     const fetch = async () => {
       const a = await fetchData();
-      if (mercadopago && a != "") {
+      if (mercadopago && a !== "") {
         mercadopago.checkout({
           preference: {
             id: a,
           },
           render: {
             container: ".cho-container",
-            label: "PAGAR PEDIDO",
+            label: "PAGAR",
           },
         });
       }
@@ -169,7 +169,7 @@ function Cart() {
       pauseOnHover: false,
       draggable: true,
       progress: undefined,
-      theme: "dark",
+      theme: "light",
     });
   };
 
@@ -182,7 +182,7 @@ function Cart() {
       pauseOnHover: false,
       draggable: true,
       progress: undefined,
-      theme: "dark",
+      theme: "light",
     });
   };
 
@@ -195,7 +195,7 @@ function Cart() {
       pauseOnHover: false,
       draggable: true,
       progress: undefined,
-      theme: "dark",
+      theme: "light",
     });
   };
 
@@ -312,16 +312,17 @@ function Cart() {
               <span>Costo total</span>
               <span>${calculateTotal(productListStatus)}</span>
             </div>
-
-            <button
+            {productListStatus.length ? <button
               className="bg-amber-600 font-semibold hover:bg-amber-900 transition-colors py-3 text-sm text-white uppercase w-full"
               onClick={() => {
                 updateItem(getIdClient(productListStatus));
                 notifyPedido();
+                window.location.reload();
               }}
             >
               Realizar pedido
-            </button>
+            </button> : null}
+            
           </div>
         </div>
       </div>
@@ -436,14 +437,14 @@ function Cart() {
               <span>Costo total</span>
               <span>${calculateTotal(productList)}</span>
             </div>
-
-            <button
+            {productList.length ? <button
               className="bg-green-600 font-semibold hover:bg-green-900 transition-colors py-3 text-sm text-white uppercase w-full"
               onClick={() => { confirmSale();notifyPedidoPagado(); }}
             >
               PAGAR EFECTIVO
-            </button> 
-            <div className="cho-container" />
+            </button> : null}        
+            
+            <div className="cho-container mt-5" />
           </div>
         </div>
       </div>

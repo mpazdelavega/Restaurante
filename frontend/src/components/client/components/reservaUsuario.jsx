@@ -85,12 +85,13 @@ function ReservaUsuario() {
     
   } 
 
-  const updateReservaEstado = (id) => {
+  const updateReservaEstado = (id, hora) => {
     console.log("RESERVA UPDATE ID: " + id)
     const reserva = {
       id_reserva: id,
       fecha: "2022-10-15",
       estado_reserva: "Cancelado",
+      hora: hora,
     };
     updateReserva({reserva})
     //window.location.href = window.location.href;
@@ -150,7 +151,7 @@ function ReservaUsuario() {
               <td className="py-4 px-6 text-right">
               {item.estado_reserva != "Cancelado" ? <a
                   className="font-medium text-white dark:text-black hover:underline cursor-pointer"
-                  onClick={() => {updateEstado(item.mesa.id_mesa, item.mesa.date);updateReservaEstado(item.id_reserva);window.location.reload();}}
+                  onClick={() => {updateEstado(item.mesa.id_mesa, item.mesa.date);updateReservaEstado(item.id_reserva, item.hora);window.location.reload();}}
                 >
                   Cancelar Reserva
                 </a>: null}
