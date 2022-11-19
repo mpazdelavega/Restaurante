@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getUserDetails } from '../../../services/auth'
-import { getAllMesas, updateMesa } from '../../../services/mesa'
+import { getAllMesas, updateMesa, getAllHoras, updateHora } from '../../../services/mesa'
 import { addReserva } from '../../../services/reserva';
 import { deleteReservaItem, getReservaList, updateReserva } from "../../../services/reserva";
 import { ToastContainer, toast } from "react-toastify"
@@ -9,8 +9,8 @@ import "react-toastify/dist/ReactToastify.css"
 function Mesa(props) {
   const [roles, setUserRole] = useState([{}])
   const [mesaList, setMesaList] = useState([])
+  const [horaList, setHoraList] = useState([])
   const [listaReserva, setListaReserva] = useState([]);
-  
   const [refresh, setRefresh] = useState(false)
   const [openModal, setOpenModal] = useState(false)
   const [showProductFeedback, setProductFeedback] = React.useState({ show: false, status: false, infoText: '' })
@@ -18,8 +18,9 @@ function Mesa(props) {
   useEffect(() => {
     getUserDetails({ setUserRole })
     getAllMesas({ setMesaList })
+    getAllHoras({ setHoraList })
     getReservaList({ setListaReserva })
-    getReservas()
+    console.log(horaList)
   }, [refresh])
 
   const getList = () => {
@@ -38,10 +39,6 @@ function Mesa(props) {
     if(reserva === getIdClient()){
       return estado;
     }
-    
-
-    //return console.log("getReservas: " + reserva + " " + estado + " " + mesa);
-    
   };
 
   const getIdClient = () => {
@@ -61,16 +58,12 @@ function Mesa(props) {
   };
 
   const addMesa = (fechaToAdd, mesaToAdd, horaToAdd) => {
-    if(horaToAdd === "Seleccionar hora"){
+    if(horaToAdd === "Horas disponibless"){
       notifyAlerta();
     }
     else{
       addReserva({ fechaToAdd, mesaToAdd, horaToAdd });
     }
-    
-    
-    //updateMesa({mesa})
-    //console.log(mesaToAdd, fechaToAdd)
   }
 
   const updateEstado = (id,fecha, hora) => {
@@ -80,14 +73,20 @@ function Mesa(props) {
       date: fecha,
     };
     console.log(id)
-    if(hora !== "Seleccionar hora"){
+    if(hora !== "Horas disponibless"){
       updateMesa({mesa})
       notifyReserva();
     }
-    
-    
-    //window.location.replace('');
-    
+  } 
+
+  const updateEstadoHora = (id,hora) => {
+    const horaMesa = {
+      id_hora_mesa: id,
+      estado: "Probando",
+      hora: hora,
+    };
+    updateMesa({horaMesa})
+    notifyReserva();
   } 
 
   const notifyReserva = () => {
@@ -101,7 +100,6 @@ function Mesa(props) {
       progress: undefined,
       theme: "dark",
       });
-      
   }
 
   const notifyAlerta = () => {
@@ -115,27 +113,22 @@ function Mesa(props) {
       progress: undefined,
       theme: "dark",
       });
-      
   }
 
   const getInitialState = () => {
-    const value = "Seleccionar hora";
+    const value = "Horas disponibless";
     return value;
   };
 
   const [value, setValue] = useState(getInitialState);
+  const [horaMesaData, setHoraMesaData] = useState({ id_hora_mesa: "", hora: "" });
 
   const handleChange = (e) => {
     setValue(e.target.value);
   };
 
-  var Data= ['11:00', '12:00', '13:00', '14:00']
-
-
   var today = new Date(),
   date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + (today.getDate() + 1);
-
-
 
   return (
     <div className='max-w-[1640px] m-auto px-4 py-12'>   
@@ -177,9 +170,12 @@ function Mesa(props) {
                 </button>
             <p className='font-bold text-center mt-5 mb-2'>{item.date}</p>
             <select value={value} onChange={handleChange} className="mb-5 ml-4 w-5/6 p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
-                <option disabled>Seleccionar hora</option>
-                {Data.map( (x,y) => 
-                <option key={y}>{x}</option>)}
+                <option disabled>Horas disponibless</option>
+                {horaList.map((item2) => (
+                  item2.mesa.id_mesa === item.id_mesa && item2.estado === "Disponible" ? 
+                  (<option key={item2.id_hora_mesa}>{item2.hora}</option>)
+                  : null
+                ))}
             </select>
         </div>
           </div>

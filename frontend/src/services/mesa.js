@@ -13,3 +13,16 @@ export const updateMesa = ({ mesa }) => {
     const mesaUpdateUrl = getApiUrl("mesa/update")
     axios.put(mesaUpdateUrl, mesa, { withCredentials: true })  
 }
+
+export const getAllHoras = ({ setHoraList }) => {
+    const mesaUrl = getApiUrl("horaMesa/getAll")
+    axios.get(mesaUrl, { withCredentials: true }).then((response) => {
+        setHoraList(response.data)
+    })
+}
+
+export const updateHora = ({ horaMesa }) => {
+    console.log(horaMesa)
+    const mesaUpdateUrl = getApiUrl("horaMesa/update")
+    axios.put(mesaUpdateUrl, horaMesa, { withCredentials: true })  
+}

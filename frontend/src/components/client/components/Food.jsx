@@ -157,11 +157,12 @@ const Food = () => {
                 <span className='bg-amber-600 text-white p-2 mr-2 rounded-full'>
                   ${productItem.price}
                 </span>
-                <button onClick={() => {
+                {getEstadoReservaUsuario() === "No Cancelado" ? <button onClick={() => {
               addProduct(productItem, 1);notifyPedido();
             }} className='bg-amber-600 hover:bg-amber-900 transition-colors text-white p-1.5 rounded-full'>
                     Agregar
-                </button>
+                </button> : null}
+                
               </p>
             </div>
             
