@@ -23,6 +23,10 @@ public class ReservaServiceImpl implements ReservaService{
 		return this.reservaRepository.findByClient_UserName(userName);
 	}
 	
+	public List<Reserva> findByIdMesa(int id_mesa,String hora_reserva, String dia_reserva){
+		return this.reservaRepository.findById_Mesa(id_mesa, hora_reserva, dia_reserva);
+	}
+	
 	public void cleanReserva(int clientId) {
 		this.reservaRepository.deleteByClient_Id(clientId);
 	}

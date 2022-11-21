@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { BsFillCartFill } from "react-icons/bs";
-import { MdLogout, MdOutlineMenuBook } from "react-icons/md";
+import { MdLogout, MdOutlineMenuBook, MdOutlineLogin } from "react-icons/md";
 import { RiReservedFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { IoCalendar } from "react-icons/io5";
 import { logout } from "../../../services/auth";
 import { getReservaList } from "../../../services/reserva";
 
-function Header() {
+function HeaderIndex() {
   const [nav, setNav] = useState(false);
   const [refresh, setRefresh] = useState(false);
   var navigate = useNavigate();
@@ -31,11 +31,6 @@ function Header() {
       shouldUpdate = false;
     };
   }, [number]);
-
-  useEffect(() => {
-    getReservaList({ setListaReserva });
-    console.log(getNumeroMesa());
-  }, [refresh]);
 
   const getNumeroMesa = () => {
     let nMesa = "";
@@ -67,54 +62,21 @@ function Header() {
         <h1 className="text-2xl sm:text-3xl lg:text-4xl px-2">
           Siglo <span className="font-bold text-white">XXI</span>
         </h1>
-
-        <div className="hidden md:flex items-center bg-white rounded-full  text-[14px]">
-        {getEstadoReservaUsuario() === "No Cancelado" ? <p className="font-bold text-amber-600 rounded-full p-2">Mesa N°{getNumeroMesa()}</p>:null}
-          
-        </div>
       </div>
-
-      {/* Search Input 
-      <div className='bg-gray-200 rounded-full flex items-center px-2 w-[200px] sm:w-[400px] md:w-[300px] lg:w-[400px]'>
-        <AiOutlineSearch size={25} />
-        <input
-          className='bg-transparent p-2 w-full focus:outline-none'
-          type='text'
-          placeholder='Search foods'
-        />
-      </div>
-      */}
       {/* Cart button */}
-      <a href="/store">
-        <button className="bg-white text-amber-600 hidden md:flex items-center py-2  rounded-full w-[100px]">
-          <MdOutlineMenuBook size={20} className="mr-1 ml-4" /> Menu
-        </button>
-      </a>
-      {/* <a href="/store/reserva">
-        <button className="bg-white text-amber-600 hidden md:flex items-center py-2  rounded-full w-[120px]">
-          <IoCalendar size={20} className="mr-1 ml-4" /> Reservar
-        </button>
-      </a>
-      <a href="/store/reservas">
+      <a onClick={closeSession}>
         <button className="bg-white text-amber-600 hidden md:flex items-center py-2  rounded-full w-[150px]">
-          <RiReservedFill size={20} className="mr-1 ml-4" /> Mis Reservas
-        </button>
-      </a> */}
-      <a href="/store/cart">
-        <button className="bg-white text-amber-600 hidden md:flex items-center py-2  rounded-full w-[120px]">
-          <BsFillCartFill size={20} className="mr-1 ml-4" /> Carro ({number})
+          <MdOutlineLogin size={20} className="mr-1 ml-4" /> Cerrar
+              Sesión
         </button>
       </a>
 
-      {/* Mobile Menu */}
-      {/* Overlay */}
       {nav ? (
         <div className="bg-black/80 fixed w-full h-screen z-10 top-0 left-0"></div>
       ) : (
         ""
       )}
 
-      {/* Side drawer menu */}
       <div
         className={
           nav
@@ -132,32 +94,7 @@ function Header() {
         </h2>
         <nav>
           <ul className="flex flex-col p-4 text-gray-800">
-            <a href="/store">
-              <li className="text-xl py-4 flex cursor-pointer">
-                <MdOutlineMenuBook size={25} className="mr-4 text-amber-600" />{" "}
-                Menu
-              </li>
-            </a>
-            {/* <a href="/store/reserva">
-              <li className="text-xl py-4 flex cursor-pointer">
-                <IoCalendar size={25} className="mr-4 text-amber-600" />{" "}
-                Reservar
-              </li>
-            </a>
-            <a href="/store/reservas">
-              <li className="text-xl py-4 flex cursor-pointer">
-                <RiReservedFill size={25} className="mr-4 text-amber-600" /> Mis
-                reservas
-              </li>
-            </a> */}
-
-            <a href="/store/cart">
-              <li className="text-xl py-4 flex cursor-pointer">
-                <BsFillCartFill size={25} className="mr-4 text-amber-600" />{" "}
-                Carro ({number})
-              </li>
-            </a>
-
+            <a href="/">
             <li
               className="text-xl py-4 flex cursor-pointer"
               onClick={closeSession}
@@ -165,6 +102,7 @@ function Header() {
               <MdLogout size={25} className="mr-4 text-amber-600" /> Cerrar
               Sesión
             </li>
+            </a>
           </ul>
         </nav>
       </div>
@@ -172,4 +110,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default HeaderIndex;

@@ -43,6 +43,11 @@ public class ReservaController {
 		return new ResponseEntity<>(this.reservaService.getListByClient(userName), HttpStatus.OK);
 	}
 	
+	@GetMapping("/disponible/{id_mesa}/{hora_reserva}/{dia_reserva}")
+	public ResponseEntity<List<Reserva>> findByIdMesa(@PathVariable("id_mesa")int id_mesa,@PathVariable("hora_reserva")String hora_reserva,@PathVariable("dia_reserva") String dia_reserva){
+		return new ResponseEntity<>(this.reservaService.findByIdMesa(id_mesa, hora_reserva, dia_reserva) , HttpStatus.OK);
+	}
+	
 	@GetMapping("/count/{client_id}")
 	public ResponseEntity<Long> contByClient(@PathVariable("client_id")int id){
 		return new ResponseEntity<>(this.reservaService.getCountByClient(id), HttpStatus.OK);

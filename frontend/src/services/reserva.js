@@ -30,6 +30,18 @@ export const getReservaList = ({ setListaReserva }) => {
         setListaReserva(response.data)
     })
 }
+
+export const getReservaAhora = ({id_mesa, hora_reserva, dia_reserva, setListaReserva, navigate }) => {
+    const listUrl = getApiUrl(`reserva/disponible/${id_mesa}/${hora_reserva}/${dia_reserva}`)
+    axios.get(listUrl, { withCredentials: true }).then(response => {
+        setListaReserva(response.data)
+        if(response.data.length > 0){
+            navigate('/store', { replace: true })
+        }
+        
+    })
+}
+
 export const generateSale = () => {
     const saleUrl = getApiUrl(`sale/create`)
     return axios.post(saleUrl, null, { withCredentials: true })

@@ -47,7 +47,7 @@ public class MainSecurity {
                     return configuration;
                 }).and().csrf().disable()
         .authorizeRequests()
-        .antMatchers("/auth/login", "/auth/register", "/auth/logout", "/mesa/getAll", "/reserva","/mesa/update","/reserva/update","/shoppingList/update","/shoppingList/**","/mesa/**","/sale/**","/horaMesa/**")
+        .antMatchers("/auth/login", "/auth/register", "/auth/logout", "/mesa/getAll", "/reserva","/mesa/update","/reserva/**","/shoppingList/update","/shoppingList/**","/mesa/**","/sale/**","/horaMesa/**","/product/**")
         .permitAll()
         .anyRequest().authenticated()
         .and()

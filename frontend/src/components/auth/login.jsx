@@ -11,6 +11,8 @@ function Login() {
   });
   const [open, setOpen] = useState(true);
   const handleForm = (e) => {
+    console.log(loginData.userName)
+    console.log(loginData.password)
     const tempData = { ...loginData };
     tempData[e.target.id] = e.target.value;
     setLoginData(tempData);
@@ -92,6 +94,7 @@ function Login() {
                 />
               </svg>
             </div>
+            
             <p className="text-red-600 text-xs italic"></p>
             <div>
               <button
@@ -107,6 +110,13 @@ function Login() {
               >
                 Iniciar sesión
               </button>
+              <a href="/menu">
+                <button
+                  className="w-full bg-amber-900 py-2 px-4 text-white rounded-md hover:bg-amber-600 transition-colors mt-5"
+                >
+                  Ver menú
+                </button>
+              </a>
             </div>
           </div>
         </div>

@@ -7,7 +7,7 @@ export const submitLogin = (props) => {
     const loginUrl = getApiUrl('auth/login')
     axios.post(loginUrl, loginData, { withCredentials: true })
         .then(() => {
-            navigate('/store', { replace: true })
+            navigate('/index', { replace: true })
         }).catch(error => {
             setWrongCredentials({ wrongData: true, infoText: error.response.data.infoMessage })
             setOpen(true)

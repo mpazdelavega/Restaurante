@@ -12,17 +12,24 @@ import Food from './components/client/components/Food';
 import Footer from './components/client/components/Footer';
 import Mesa from './components/client/components/Mesa';
 import ReservaUsuario from './components/client/components/reservaUsuario';
+import VerMenu from './components/client/components/VerMenu';
+import Index from './components/client/components/Index';
+import HeaderMenu from './components/client/components/headerMenu';
+import HeaderIndex from './components/client/components/headerIndex';
+import HeaderReserva from './components/client/components/headerReserva';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="login" element={<Login />} />
+      <Route path="index" element={<><HeaderIndex /><Index /><Footer/></>} />
       <Route path="register" element={<Register />} />
+      <Route path="menu" element={<><HeaderMenu /><VerMenu /><Footer/></>} />
+      <Route path="reserva" element={<><HeaderReserva /><HomeMesa /><Mesa/><Footer/></> } />
+      <Route path="reservas" element={<><HeaderReserva /><HomeMesa /><ReservaUsuario/><Footer/></> } />
       <Route path="store" element={<Client />}>
         <Route path="" element={<><Home /><HeadlineCards/><Food/><Footer/></> } />
-        <Route path="reserva" element={<><HomeMesa /><Mesa/><Footer/></> } />
-        <Route path="reservas" element={<><HomeMesa /><ReservaUsuario/><Footer/></> } />
         <Route path="detail/:id/:category" element={<><Detail /><Footer/></> } />
         <Route path="cart" element={<><Cart /><Footer/></>} />
       </Route>
