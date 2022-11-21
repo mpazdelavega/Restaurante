@@ -133,6 +133,14 @@ function Cart() {
     return total;
   };
 
+  const calculateCantidad = (items) => {
+    let cantidad = 0;
+    items.forEach((item) => {
+      cantidad = item.amount;
+    });
+    return cantidad;
+  };
+
   const getIdClient = (items) => {
     let clientId = "";
     items.forEach((item) => {

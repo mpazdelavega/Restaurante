@@ -154,7 +154,7 @@ function Header() {
             <a href="/store/cart">
               <li className="text-xl py-4 flex cursor-pointer">
                 <BsFillCartFill size={25} className="mr-4 text-amber-600" />{" "}
-                Carro
+                Carro ({number})
               </li>
             </a>
 

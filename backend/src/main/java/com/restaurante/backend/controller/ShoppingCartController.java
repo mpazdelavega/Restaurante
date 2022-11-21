@@ -93,9 +93,6 @@ public class ShoppingCartController {
     @PostMapping("/mercado")
     public ResponseEntity<String> getMP(@RequestBody List<ShoppingCart> lista){
     	PreferenceClient client = new PreferenceClient();
-    	//UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    	//String userName = userDetails.getUsername();
-    	//this.saleService.createSale(userName);
     	String homeUrl = "http://localhost:3000/store";
         List<PreferenceItemRequest> items = new ArrayList<>();
         for (ShoppingCart shoppingCart : lista) {
@@ -115,7 +112,6 @@ public class ShoppingCartController {
 
         PreferenceRequest request = PreferenceRequest.builder().items(items).tracks(tracks).backUrls(back).build();
         
-
         try {
             client.create(request);
 			return ResponseEntity.ok(client.create(request).getId());

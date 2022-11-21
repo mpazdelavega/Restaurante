@@ -57,12 +57,18 @@ function Mesa(props) {
     setProductFeedback({ show: false });
   };
 
-  const addMesa = (fechaToAdd, mesaToAdd, horaToAdd) => {
-    if(horaToAdd === "Horas disponibless"){
+  const addMesa = (fechaToAdd, mesaToAdd, horaToAdd, idHoraMesa) => {
+    // const horaMesa = {
+    //   id_hora_mesa: idHoraMesa,
+    //   estado: "OBJETO HORA MESA",
+    //   hora: horaToAdd,
+    // };
+    
+    if(horaToAdd === "Horas disponibles"){
       notifyAlerta();
     }
     else{
-      addReserva({ fechaToAdd, mesaToAdd, horaToAdd });
+      addReserva({ fechaToAdd, mesaToAdd, horaToAdd, idHoraMesa });
     }
   }
 
@@ -73,7 +79,7 @@ function Mesa(props) {
       date: fecha,
     };
     console.log(id)
-    if(hora !== "Horas disponibless"){
+    if(hora !== "Horas disponibles"){
       updateMesa({mesa})
       notifyReserva();
     }
@@ -82,11 +88,10 @@ function Mesa(props) {
   const updateEstadoHora = (id,hora) => {
     const horaMesa = {
       id_hora_mesa: id,
-      estado: "Probando",
+      estado: "Reservada",
       hora: hora,
     };
-    updateMesa({horaMesa})
-    notifyReserva();
+    updateHora({horaMesa})
   } 
 
   const notifyReserva = () => {
@@ -116,15 +121,19 @@ function Mesa(props) {
   }
 
   const getInitialState = () => {
-    const value = "Horas disponibless";
+    const value = "Horas disponibles";
     return value;
   };
 
   const [value, setValue] = useState(getInitialState);
-  const [horaMesaData, setHoraMesaData] = useState({ id_hora_mesa: "", hora: "" });
+  const [idMesa, setIdMesa] = useState(getInitialState);
 
   const handleChange = (e) => {
+    const selectedIndex = e.target.options.selectedIndex;
     setValue(e.target.value);
+    setIdMesa(e.target.options[selectedIndex].getAttribute('data-key'));
+    console.log("ID HORA MESA: " + idMesa)
+    console.log("HORA MESA: " + value)
   };
 
   var today = new Date(),
@@ -153,7 +162,7 @@ function Mesa(props) {
             
             <div className='flex px-5 py-4'>
               <p><span className='bg-amber-600 text-xs text-white p-2 mr-1 rounded-full'>
-                N°{item.tipo_mesa.id_tipo_mesa}
+                N°{item.id_mesa}
                 </span></p>
               <p>
               <span className='bg-amber-600 text-xs text-white p-2 mr-1 rounded-full'>
@@ -165,15 +174,15 @@ function Mesa(props) {
             </div>
             
             <div className="relative w-full lg:max-w-sm">
-            <button className='bg-amber-600 hover:bg-amber-900 transition-colors text-white ml-4 p-1 w-5/6 rounded-full' onClick={() => {addMesa(date, item, value);updateEstado(item.id_mesa,item.date, value);getReservas();}}>
+            <button className='bg-amber-600 hover:bg-amber-900 transition-colors text-white ml-4 p-1 w-5/6 rounded-full' onClick={() => {addMesa(date, item, value, idMesa);updateEstado(item.id_mesa,item.date, value);getReservas();updateEstadoHora(idMesa, value)}}>
                     Reservar
                 </button>
             <p className='font-bold text-center mt-5 mb-2'>{item.date}</p>
-            <select value={value} onChange={handleChange} className="mb-5 ml-4 w-5/6 p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
-                <option disabled>Horas disponibless</option>
+            <select onChange={handleChange} className="mb-5 ml-4 w-5/6 p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
+                <option>Horas disponibles</option>
                 {horaList.map((item2) => (
                   item2.mesa.id_mesa === item.id_mesa && item2.estado === "Disponible" ? 
-                  (<option key={item2.id_hora_mesa}>{item2.hora}</option>)
+                  (<option key={item2.id_hora_mesa} data-key={item2.id_hora_mesa}>{item2.hora}</option>)
                   : null
                 ))}
             </select>

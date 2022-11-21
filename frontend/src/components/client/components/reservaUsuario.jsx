@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { updateMesa } from '../../../services/mesa'
+import { updateMesa, updateHora } from '../../../services/mesa'
 import { deleteReservaItem, getReservaList, updateReserva } from "../../../services/reserva";
 import {
   getShoppingList,
@@ -11,14 +11,14 @@ import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
 function ReservaUsuario() {
-
+  //SE DEBE ACTUALIZAR EL ESTADO DE LA HORA DESDE LA PAGINA DE VER RESERVAS
   const [listaReserva, setListaReserva] = useState([]);
   const [salesList, setSalesList] = useState([]);
   const [open, setOpen] = useState(false);
 
   let [number, setNumber] = useState(0);
   useEffect(() => {
-    console.log("Lista reserva: " + listaReserva)
+    console.log(listaReserva)
     let shouldUpdate = true;
     const getUserCart = () => {
       const item = localStorage.getItem("number");
@@ -92,6 +92,16 @@ function ReservaUsuario() {
     
   } 
 
+  const updateEstadoHora = (id, hora) => {
+    const horaMesa = {
+      id_hora_mesa: id,
+      estado: "Disponible",
+      hora: hora,
+    };
+    updateHora({horaMesa})
+    
+  } 
+
   const updateReservaEstado = (id, hora) => {
     console.log("RESERVA UPDATE ID: " + id)
     const reserva = {
@@ -152,13 +162,13 @@ function ReservaUsuario() {
                 {item.id_reserva}
               </th>
               <td className="py-4 px-6">Mesa N°{item.mesa.id_mesa}</td>
-              <td className="py-4 px-6">{item.mesa.date} {item.hora}</td>
+              <td className="py-4 px-6">{item.mesa.date} {item.hora_mesa.hora}</td>
               {item.estado_reserva === "Cancelado" ? <td className="py-4 px-6">{item.estado_reserva}</td> : <td className="py-4 px-6">{item.mesa.estado}</td>}
               
               <td className="py-4 px-6 text-right">
               {item.estado_reserva != "Cancelado" ? <a
                   className="font-medium text-white dark:text-black hover:underline cursor-pointer"
-                  onClick={() => {updateEstado(item.mesa.id_mesa, item.mesa.date);updateReservaEstado(item.id_reserva, item.hora);window.location.reload();}}
+                  onClick={() => {updateEstado(item.mesa.id_mesa, item.mesa.date);updateReservaEstado(item.id_reserva, item.hora_mesa.hora);updateEstadoHora(item.hora_mesa.id_hora_mesa, item.hora_mesa.hora);window.location.reload();}}
                 >
                   Cancelar Reserva
                 </a>: null}

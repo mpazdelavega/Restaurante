@@ -23,20 +23,31 @@ public class Product {
     private String description;
     @NotBlank @NotNull
     private String category;
+    private int stock;
     @NotBlank @NotNull
     private String image;
 	public Product(int id, @NotBlank @NotNull String name, @NotNull @DecimalMin("0.1") Double price,
-			@NotBlank @NotNull String description, @NotBlank @NotNull String category,
+			@NotBlank @NotNull String description, @NotBlank @NotNull String category, int stock,
 			@NotBlank @NotNull String image) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.description = description;
 		this.category = category;
+		this.stock = stock;
 		this.image = image;
 	}
 	public Product() {
 
+	}
+	
+	
+	
+	public int getStock() {
+		return stock;
+	}
+	public void setStock(int stock) {
+		this.stock = stock;
 	}
 	public int getId() {
 		return id;
