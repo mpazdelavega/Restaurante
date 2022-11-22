@@ -12,6 +12,8 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios'
 import { useParams } from "react-router-dom";
 import { useMercadopago } from "react-sdk-mercadopago"
+import { updateHora, updateMesa } from "../../../services/mesa";
+import { getReservaList, updateReserva } from "../../../services/reserva";
 //import {Helmet} from "react-helmet";
 
 function Cart() {
@@ -28,6 +30,8 @@ function Cart() {
   const [preferenceId, setPreferenceId] = useState(null);
   const [productList, setProductList] = useState([]);
   const [productListStatus, setProductListStatus] = useState([]);
+  const [listaReserva, setListaReserva] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   const fetchData = () => {
     return axios
@@ -47,7 +51,7 @@ function Cart() {
           },
           render: {
             container: ".cho-container",
-            label: "PAGAR",
+            label: "PAGO WEB",
           },
         });
       }
@@ -206,6 +210,88 @@ function Cart() {
       theme: "light",
     });
   };
+
+  useEffect(() => {
+    getReservaList({ setListaReserva });
+    console.log(getNumeroMesa());
+    console.log(getFechaMesa());
+    console.log(getHoraMesa());
+    console.log(getNumeroHoraMesa());
+    console.log(getNumeroReserva  ());
+  }, [refresh]);
+
+  const getNumeroMesa = () => {
+    let nMesa = "";
+    listaReserva.forEach((item) => {
+      nMesa = item.mesa.id_mesa;
+    });
+    return nMesa;
+  };
+
+  const getFechaMesa = () => {
+    let fechaMesa = "";
+    listaReserva.forEach((item) => {
+      fechaMesa = item.mesa.date;
+    });
+    return fechaMesa;
+  };
+
+  const getHoraMesa = () => {
+    let horaMesa = "";
+    listaReserva.forEach((item) => {
+      horaMesa = item.hora_mesa.hora;
+    });
+    return horaMesa;
+  };
+
+  const getNumeroHoraMesa = () => {
+    let idHoraMesa = "";
+    listaReserva.forEach((item) => {
+      idHoraMesa = item.hora_mesa.id_hora_mesa;
+    });
+    return idHoraMesa;
+  };
+
+  const getNumeroReserva = () => {
+    let idReserva = "";
+    listaReserva.forEach((item) => {
+      idReserva = item.id_reserva;
+    });
+    return idReserva;
+  };
+
+  const updateEstado = (id,fecha) => {
+    console.log(id)
+    const mesa = {
+      id_mesa: id,
+      estado: "Disponible",
+      date: fecha,
+    };
+    updateMesa({mesa})
+    
+  } 
+
+  const updateEstadoHora = (id, hora) => {
+    const horaMesa = {
+      id_hora_mesa: id,
+      estado: "Disponible",
+      hora: hora,
+    };
+    updateHora({horaMesa})
+    
+  } 
+
+  const updateReservaEstado = (id, hora) => {
+    const reserva = {
+      id_reserva: id,
+      fecha: "2022-10-15",
+      estado_reserva: "Cancelado",
+      hora: hora,
+    };
+    updateReserva({reserva})
+    //window.location.href = window.location.href;
+  } 
+  
 
   return (
     <div className="container mx-auto xl:pb-16 mt-10">
@@ -447,7 +533,13 @@ function Cart() {
             </div>
             {productList.length ? <button
               className="bg-green-600 font-semibold hover:bg-green-900 transition-colors py-3 text-sm text-white uppercase w-full"
-              onClick={() => { confirmSale();notifyPedidoPagado(); }}
+              onClick={() => { 
+                confirmSale();
+                notifyPedidoPagado(); 
+                updateEstado(getNumeroMesa(), getFechaMesa());
+                updateReservaEstado(getNumeroReserva(), getHoraMesa());
+                updateEstadoHora(getNumeroHoraMesa(),getHoraMesa())
+              }}
             >
               PAGAR EFECTIVO
             </button> : null}        

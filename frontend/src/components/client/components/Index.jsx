@@ -35,7 +35,7 @@ function Index() {
   var id_mesa = parseInt(numeroMesa);
 
   //Datos de prueba
-  var hora_reserva = "16:00";
+  var hora_reserva = "13:00";
   //var dia_reserva = "lunes";
 
   //Falta validar con ID DE LA MESA
