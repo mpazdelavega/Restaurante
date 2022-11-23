@@ -17,6 +17,7 @@ import Index from './components/client/components/Index';
 import HeaderMenu from './components/client/components/headerMenu';
 import HeaderIndex from './components/client/components/headerIndex';
 import HeaderReserva from './components/client/components/headerReserva';
+import PagoRecibido from './components/client/components/pagoRecibido';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route path="login" element={<Login />} />
       <Route path="index" element={<><HeaderIndex /><Index /><Footer/></>} />
       <Route path="register" element={<Register />} />
+      <Route path="redirect" element={<PagoRecibido />} />
       <Route path="menu" element={<><HeaderMenu /><VerMenu /><Footer/></>} />
       <Route path="reserva" element={<><HeaderReserva /><HomeMesa /><Mesa/><Footer/></> } />
       <Route path="reservas" element={<><HeaderReserva /><HomeMesa /><ReservaUsuario/><Footer/></> } />

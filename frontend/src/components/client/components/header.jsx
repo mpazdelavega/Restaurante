@@ -6,7 +6,8 @@ import { RiReservedFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { IoCalendar } from "react-icons/io5";
 import { logout } from "../../../services/auth";
-import { getReservaList } from "../../../services/reserva";
+import { getReservaList, updateReserva } from "../../../services/reserva";
+import { updateHora, updateMesa } from "../../../services/mesa";
 
 function Header() {
   const [nav, setNav] = useState(false);
@@ -37,13 +38,6 @@ function Header() {
     console.log(getNumeroMesa());
   }, [refresh]);
 
-  const getNumeroMesa = () => {
-    let nMesa = "";
-    listaReserva.forEach((item) => {
-      nMesa = item.mesa.id_mesa;
-    });
-    return nMesa;
-  };
 
   const getEstadoReservaUsuario = () => {
     let estadoReserva = '';
@@ -56,6 +50,78 @@ function Header() {
   const closeSession = () => {
     logout({ navigate });
   };
+
+  const getNumeroMesa = () => {
+    let nMesa = "";
+    listaReserva.forEach((item) => {
+      nMesa = item.mesa.id_mesa;
+    });
+    return nMesa;
+  };
+
+  const getFechaMesa = () => {
+    let fechaMesa = "";
+    listaReserva.forEach((item) => {
+      fechaMesa = item.mesa.date;
+    });
+    return fechaMesa;
+  };
+
+  const getHoraMesa = () => {
+    let horaMesa = "";
+    listaReserva.forEach((item) => {
+      horaMesa = item.hora_mesa.hora;
+    });
+    return horaMesa;
+  };
+
+  const getNumeroHoraMesa = () => {
+    let idHoraMesa = "";
+    listaReserva.forEach((item) => {
+      idHoraMesa = item.hora_mesa.id_hora_mesa;
+    });
+    return idHoraMesa;
+  };
+
+  const getNumeroReserva = () => {
+    let idReserva = "";
+    listaReserva.forEach((item) => {
+      idReserva = item.id_reserva;
+    });
+    return idReserva;
+  };
+
+  const updateEstado = (id,fecha) => {
+    console.log(id)
+    const mesa = {
+      id_mesa: id,
+      estado: "Disponible",
+      date: fecha,
+    };
+    updateMesa({mesa})
+    
+  } 
+
+  const updateEstadoHora = (id, hora) => {
+    const horaMesa = {
+      id_hora_mesa: id,
+      estado: "Disponible",
+      hora: hora,
+    };
+    updateHora({horaMesa})
+    
+  } 
+
+  const updateReservaEstado = (id, hora) => {
+    const reserva = {
+      id_reserva: id,
+      fecha: "2022-10-15",
+      estado_reserva: "Cancelado",
+      hora: hora,
+    };
+    updateReserva({reserva})
+    //window.location.href = window.location.href;
+  } 
 
   return (
     <div className="dark:bg-amber-600 mx-auto flex justify-between items-center p-4 sticky top-0 z-50 shadow-xl">
@@ -160,11 +226,21 @@ function Header() {
 
             <li
               className="text-xl py-4 flex cursor-pointer"
-              onClick={closeSession}
+              onClick={() => {
+                closeSession();
+                updateEstado(getNumeroMesa(), getFechaMesa());
+                updateReservaEstado(getNumeroReserva(), getHoraMesa());
+                updateEstadoHora(getNumeroHoraMesa(),getHoraMesa());
+              }}
             >
               <MdLogout size={25} className="mr-4 text-amber-600" /> Cerrar
               Sesión
             </li>
+            
+            <li className="text-xl text-gray-400 py-4 flex cursor-pointer mt-5 text-sm">
+              ♦ Advertencia, al cerrar sesión se cancelara la hora reservada y se eliminaran los productos del pedido ♦
+            </li>
+            
           </ul>
         </nav>
       </div>

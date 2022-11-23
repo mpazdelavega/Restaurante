@@ -28,6 +28,7 @@ import com.restaurante.backend.entity.User;
 import com.restaurante.backend.enums.RoleList;
 import com.restaurante.backend.security.JwtProvider;
 import com.restaurante.backend.service.RoleService;
+import com.restaurante.backend.service.ShoppingCartServiceImpl;
 import com.restaurante.backend.service.UserService;
 import com.restaurante.backend.util.CookieUtil;
 
@@ -39,18 +40,20 @@ public class AuthController {
     private final UserService userService;
     private final RoleService roleService;
     private final JwtProvider jwtProvider;
+    private final ShoppingCartServiceImpl shoppingCartService;
 
     @Value("${jwt.accessTokenCookieName}")
     private String cookieName;
 
     @Autowired
     public AuthController(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder,
-            UserService userService, RoleService roleService, JwtProvider jwtProvider) {
+            UserService userService, RoleService roleService, JwtProvider jwtProvider, ShoppingCartServiceImpl shoppingCartService) {
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
         this.roleService = roleService;
         this.jwtProvider = jwtProvider;
+        this.shoppingCartService = shoppingCartService;
     }
     @PostMapping("/login")
     public ResponseEntity<Object> login(HttpServletResponse httpServletResponse,
@@ -96,6 +99,11 @@ public class AuthController {
     @GetMapping("/logout")
     public ResponseEntity<Message> logOut(HttpServletResponse httpServletResponse){
         CookieUtil.clear(httpServletResponse,cookieName);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String userName = userDetails.getUsername();
+        User client = this.userService.getByUserName(userName).get();
+        this.shoppingCartService.cleanShoppingCart(client.getId());
         return new ResponseEntity<>(new Message("Sesión cerrada"), HttpStatus.OK) ;
     }
     

@@ -93,7 +93,7 @@ public class ShoppingCartController {
     @PostMapping("/mercado")
     public ResponseEntity<String> getMP(@RequestBody List<ShoppingCart> lista){
     	PreferenceClient client = new PreferenceClient();
-    	String homeUrl = "http://localhost:3000/store";
+    	String homeUrl = "http://localhost:3000/redirect";
         List<PreferenceItemRequest> items = new ArrayList<>();
         for (ShoppingCart shoppingCart : lista) {
             PreferenceItemRequest item =
@@ -118,6 +118,7 @@ public class ShoppingCartController {
 		} catch (MPException e) {
 		} catch (MPApiException e) {
 		}
+        
         return ResponseEntity.noContent().build();
     }    	
     

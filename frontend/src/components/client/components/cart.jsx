@@ -536,9 +536,9 @@ function Cart() {
               onClick={() => { 
                 confirmSale();
                 notifyPedidoPagado(); 
-                updateEstado(getNumeroMesa(), getFechaMesa());
-                updateReservaEstado(getNumeroReserva(), getHoraMesa());
-                updateEstadoHora(getNumeroHoraMesa(),getHoraMesa())
+                // updateEstado(getNumeroMesa(), getFechaMesa());
+                // updateReservaEstado(getNumeroReserva(), getHoraMesa());
+                // updateEstadoHora(getNumeroHoraMesa(),getHoraMesa());
               }}
             >
               PAGAR EFECTIVO
